@@ -1,4 +1,3 @@
-
 import {handler} from "./main";
 import {loggedStringHandler} from "../node_modules/assemblyscript-sdk/assembly/index";
 import {log} from "../node_modules/assemblyscript-sdk/assembly/logger";
