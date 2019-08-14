@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "flbuild": "asc assembly/index.ts -b build/optimized.wasm --validate --optimize --use abort='' --runtime half",
+    "flbuild": "asc assembly/index.ts -b build/optimized.wasm --validate --optimize --use abort='' --runtime stub",
     "test": "asp"
   },
   "keywords": [],
