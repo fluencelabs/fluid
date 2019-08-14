@@ -6,7 +6,7 @@ fn init() {
 }
 
 #[invocation_handler(init_fn = init)]
-fn azaza(arg: String) -> String {
+fn azaza(_arg: String) -> String {
     println!("Hello, world!");
 
     let query = "CREATE VIRTUAL TABLE users USING FTS5(body)";
@@ -14,7 +14,7 @@ fn azaza(arg: String) -> String {
         let bytes = query.as_bytes();
         let query_ptr = ffi::allocate(bytes.len());
         for (i, byte) in bytes.iter().enumerate() {
-            let ptr = query_ptr as usize + 8*i;
+            let ptr = query_ptr + 8*i as i32;
             ffi::store(ptr, *byte);
         }
 
@@ -22,14 +22,14 @@ fn azaza(arg: String) -> String {
 
         let mut result_size = 0;
         for i in 0u8..4u8 {
-            let ptr = result_ptr as usize + 8*i as usize;
+            let ptr = result_ptr + 8*i as i32;
             let b = ffi::load(ptr);
             result_size = result_size | (b >> 8*i)
         }
 
         let mut result_bytes = vec![0; result_size as usize];
         for i in 0u8..result_size {
-            let ptr = result_ptr as usize + 8*i as usize;
+            let ptr = result_ptr + 8*i as i32;
             let b = ffi::load(ptr);
             result_bytes[i as usize] = b;
         }
@@ -51,7 +51,7 @@ pub mod ffi {
         pub fn allocate(size: usize) -> i32;
         pub fn deallocate(ptr: i32, size: usize);
         pub fn invoke(ptr: i32, size: usize) -> i32;
-        pub fn store(ptr: usize, byte: u8);
-        pub fn load(ptr: usize) -> u8;
+        pub fn store(ptr: i32, byte: u8);
+        pub fn load(ptr: i32) -> u8;
     }
 }
