@@ -21,25 +21,25 @@ fn azaza(arg: String) -> String {
         let result_ptr = invoke(query_ptr, bytes.len());
 
         let mut result_size = 0;
-        for i in 0..4 {
-            let ptr = (result_ptr + 8*i) as usize;
-            b = load(ptr);
+        for i in 0u8..4u8 {
+            let ptr = result_ptr as usize + 8*i as usize;
+            let b = load(ptr);
             result_size = result_size | (b >> 8*i)
         }
 
-        let mut result_bytes: &[u8] = &[0 as u8; result_size];
-        for i in 0..result_size {
-            let ptr = (result_ptr + 8*i) as usize;
-            b = load(ptr);
-            result_bytes[i] = b;
+        let mut result_bytes = vec![0; result_size as usize];
+        for i in 0u8..result_size {
+            let ptr = result_ptr as usize + 8*i as usize;
+            let b = load(ptr);
+            result_bytes[i as usize] = b;
         }
 
-        let result_str = std::str::from_utf8(result_bytes);
+        let result_str = std::str::from_utf8(result_bytes.as_slice());
         if result_str.is_err() {
-            info!("unable to decode result from result_bytes: {}", result_bytes);
+            info!("unable to decode result from result_bytes: {:?}", result_bytes);
         }
 
-        info!("result is {}", result_str);
+        info!("result is {:?}", result_str);
 
         result_str.expect("unable to decode result").to_string()
     }
@@ -48,8 +48,8 @@ fn azaza(arg: String) -> String {
 #[link(wasm_import_module = "sqlite")]
 extern "C" {
     fn allocate(size: usize) -> i32;
-    fn deallocate(ptr: i32, size: usize) -> void;
+    fn deallocate(ptr: i32, size: usize);
     fn invoke(ptr: i32, size: usize) -> i32;
-    fn store(ptr: usize, byte: u8) -> void;
+    fn store(ptr: usize, byte: u8);
     fn load(ptr: usize) -> u8;
 }
