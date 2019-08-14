@@ -18,15 +18,15 @@ pub fn query(query: String) -> AppResult<String> {
 
         let result_ptr = ffi::invoke(query_ptr, bytes.len());
 
-        let mut result_size = 0;
-        for i in 0u8..4u8 {
+        let mut result_size: usize = 0;
+        for i in 0..3 {
             let ptr = result_ptr + i as i32;
-            let b = ffi::load(ptr);
-            result_size = result_size | (b >> 8 * i)
+            let b = ffi::load(ptr) as usize;
+            result_size = result_size + (b << (8 * i));
         }
 
         let mut result_bytes = vec![0; result_size as usize];
-        for i in 4u8..(result_size + 4u8) {
+        for i in 4..(result_size + 4) {
             let ptr = result_ptr + i as i32;
             let b = ffi::load(ptr);
             result_bytes[i as usize - 4] = b;
