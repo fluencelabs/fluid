@@ -6,7 +6,7 @@ fn init() {
 }
 
 #[invocation_handler(init_fn = init)]
-fn main(arg: String) -> String {
+fn azaza(arg: String) -> String {
     println!("Hello, world!");
 
     let query = "CREATE VIRTUAL TABLE users USING FTS5(body)";
