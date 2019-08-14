@@ -37,11 +37,13 @@ pub fn query(query: String) -> AppResult<String> {
             log::error!("unable to decode result from bytes: {:#x?}", result_bytes);
         }
 
-        result_str.map_err(|e| {
-            err_msg(&format!(
-                "unable to decode result from bytes {:#x?}: {}",
-                result_bytes, e
-            ))
-        })
+        result_str
+            .map_err(|e| {
+                err_msg(&format!(
+                    "unable to decode result from bytes {:#x?}: {}",
+                    result_bytes, e
+                ))
+            })
+            .map(|s| s.to_string())
     }
 }

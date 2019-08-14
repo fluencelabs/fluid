@@ -1,5 +1,16 @@
-use std::error::Error;
+use std::fmt;
 
-pub fn err_msg(s: &str) -> Box<dyn Error> {
+#[derive(Debug)]
+pub struct Error(String);
+
+impl std::error::Error for Error {}
+
+impl fmt::Display for Error {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        write!(f, "{}", self.0)
+    }
+}
+
+pub fn err_msg(s: &str) -> Box<Error> {
     Error(s.to_string()).into()
 }
