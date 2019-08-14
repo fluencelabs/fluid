@@ -1,0 +1,22 @@
+{
+  "name": "example-project",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "flbuild": "asc assembly/index.ts -b build/optimized.wasm --validate --optimize --use abort='' --runtime stub",
+    "test": "asp"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "assemblyscript": "github:assemblyscript/assemblyscript",
+    "assemblyscript-json": "github:fluencelabs/assemblyscript-json#update-as1",
+    "assemblyscript-sdk": "github:fluencelabs/assemblyscript-sdk",
+    "db-connector": "github:fluencelabs/db-connector",
+    "@as-pect/assembly": "^2.3.1",
+    "@as-pect/cli": "^2.3.1",
+    "@as-pect/core": "^2.3.1"
+  }
+}
