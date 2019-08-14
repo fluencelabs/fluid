@@ -8,17 +8,22 @@ fn init() {
 #[invocation_handler(init_fn = init)]
 fn azaza(_arg: String) -> String {
     println!("Hello, world!");
+    info!("hello");
 
     let query = "CREATE VIRTUAL TABLE users USING FTS5(body)";
     unsafe {
         let bytes = query.as_bytes();
         let query_ptr = ffi::allocate(bytes.len());
+        info!("allocated");
+
         for (i, byte) in bytes.iter().enumerate() {
             let ptr = query_ptr + 8*i as i32;
             ffi::store(ptr, *byte);
         }
+        info!("stored");
 
         let result_ptr = ffi::invoke(query_ptr, bytes.len());
+        info!("invoked");
 
         let mut result_size = 0;
         for i in 0u8..4u8 {
@@ -26,6 +31,7 @@ fn azaza(_arg: String) -> String {
             let b = ffi::load(ptr);
             result_size = result_size | (b >> 8*i)
         }
+        info!("loaded");
 
         let mut result_bytes = vec![0; result_size as usize];
         for i in 0u8..result_size {
@@ -33,6 +39,7 @@ fn azaza(_arg: String) -> String {
             let b = ffi::load(ptr);
             result_bytes[i as usize] = b;
         }
+        info!("parsed to bytes");
 
         let result_str = std::str::from_utf8(result_bytes.as_slice());
         if result_str.is_err() {
