@@ -1,5 +1,6 @@
 use crate::errors::{err_msg, Error};
 use serde::{Deserialize, Serialize};
+use serde_json::value::RawValue;
 
 pub type AppResult<T> = ::std::result::Result<T, Box<Error>>;
 
@@ -10,18 +11,11 @@ pub enum Request {
     Fetch { handle: Option<String> },
 }
 
-// TODO: remove Post, used only to workaround Response.Post serialization limitation
-#[derive(Serialize, Deserialize, Debug)]
-pub struct Post {
-    msg: String,
-    handle: String,
-}
-
 #[derive(Serialize, Debug)]
 #[serde(untagged)]
 pub enum Response {
     Post { count: i32 },
-    Fetch { posts: Vec<Post> },
+    Fetch { posts: Box<RawValue> },
     Error { error: String },
 }
 
@@ -31,6 +25,6 @@ pub fn parse(s: String) -> AppResult<Request> {
 }
 
 pub fn serialize(response: &Response) -> String {
-    serde_json::to_string_pretty(response)
+    serde_json::to_string(response)
         .unwrap_or(format!("Unable to serialize response {:?}", response))
 }

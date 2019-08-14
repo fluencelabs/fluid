@@ -1,11 +1,10 @@
 use fluence::sdk::*;
-
-use log::info;
+use serde_json::value::RawValue;
 
 use api::Request;
 use api::Response;
 
-use crate::api::{AppResult, Post};
+use crate::api::AppResult;
 use crate::errors::err_msg;
 
 pub mod api;
@@ -45,8 +44,7 @@ fn add_post(msg: String, handle: String) -> AppResult<Response> {
 fn fetch_posts(_handle: Option<String>) -> AppResult<Response> {
     // TODO: filter posts by handle
     let posts_str = model::get_posts()?;
-    info!("posts_str {}", posts_str);
-    let posts: Vec<Post> = serde_json::from_str(posts_str.as_str())
-        .map_err(|e| err_msg(&format!("Can't parse posts {:?} to json: {}", posts_str, e)))?;
-    Ok(Response::Fetch { posts })
+    let raw = RawValue::from_string(posts_str)
+        .map_err(|e| err_msg(&format!("Can't create RawValue: {}", e)))?;
+    Ok(Response::Fetch { posts: raw })
 }
