@@ -8,3 +8,5 @@ cp target/wasm32-unknown-unknown/release/*.wasm ./wasm/
 docker run -it --rm -v $(pwd)/wasm:/code -p 30000:30000 fluencelabs/frun:latest
 ```
 
+
+curl 'http://localhost:30000/apps/1/tx' --data $'OF9JW2c2vfFp/0\nyo' --compressed

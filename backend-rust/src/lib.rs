@@ -17,7 +17,8 @@ fn azaza(_arg: String) -> String {
         info!("allocated");
 
         for (i, byte) in bytes.iter().enumerate() {
-            let ptr = query_ptr + 8*i as i32;
+            info!("will store {} {}", i, *byte);
+            let ptr = query_ptr + i as i32;
             ffi::store(ptr, *byte);
         }
         info!("stored");
@@ -27,7 +28,7 @@ fn azaza(_arg: String) -> String {
 
         let mut result_size = 0;
         for i in 0u8..4u8 {
-            let ptr = result_ptr + 8*i as i32;
+            let ptr = result_ptr + i as i32;
             let b = ffi::load(ptr);
             result_size = result_size | (b >> 8*i)
         }
@@ -35,7 +36,7 @@ fn azaza(_arg: String) -> String {
 
         let mut result_bytes = vec![0; result_size as usize];
         for i in 0u8..result_size {
-            let ptr = result_ptr + 8*i as i32;
+            let ptr = result_ptr + i as i32;
             let b = ffi::load(ptr);
             result_bytes[i as usize] = b;
         }
