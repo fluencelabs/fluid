@@ -12,25 +12,25 @@ fn azaza(arg: String) -> String {
     let query = "CREATE VIRTUAL TABLE users USING FTS5(body)";
     unsafe {
         let bytes = query.as_bytes();
-        let query_ptr = allocate(bytes.len());
+        let query_ptr = ffi::allocate(bytes.len());
         for (i, byte) in bytes.iter().enumerate() {
             let ptr = query_ptr as usize + 8*i;
-            store(ptr, *byte);
+            ffi::store(ptr, *byte);
         }
 
-        let result_ptr = invoke(query_ptr, bytes.len());
+        let result_ptr = ffi::invoke(query_ptr, bytes.len());
 
         let mut result_size = 0;
         for i in 0u8..4u8 {
             let ptr = result_ptr as usize + 8*i as usize;
-            let b = load(ptr);
+            let b = ffi::load(ptr);
             result_size = result_size | (b >> 8*i)
         }
 
         let mut result_bytes = vec![0; result_size as usize];
         for i in 0u8..result_size {
             let ptr = result_ptr as usize + 8*i as usize;
-            let b = load(ptr);
+            let b = ffi::load(ptr);
             result_bytes[i as usize] = b;
         }
 
@@ -45,11 +45,13 @@ fn azaza(arg: String) -> String {
     }
 }
 
-#[link(wasm_import_module = "sqlite")]
-extern "C" {
-    fn allocate(size: usize) -> i32;
-    fn deallocate(ptr: i32, size: usize);
-    fn invoke(ptr: i32, size: usize) -> i32;
-    fn store(ptr: usize, byte: u8);
-    fn load(ptr: usize) -> u8;
+pub mod ffi {
+    #[link(wasm_import_module = "sqlite")]
+    extern "C" {
+        pub fn allocate(size: usize) -> i32;
+        pub fn deallocate(ptr: i32, size: usize);
+        pub fn invoke(ptr: i32, size: usize) -> i32;
+        pub fn store(ptr: usize, byte: u8);
+        pub fn load(ptr: usize) -> u8;
+    }
 }
