@@ -20,7 +20,7 @@ fn init() {
 fn run(arg: String) -> String {
     // Parse and handle JSON request
     let result = api::parse(arg).and_then(|request| match request {
-        Request::Post { msg, handle } => add_post(msg, handle),
+        Request::Post { message, handle } => add_post(message, handle),
         Request::Fetch { handle } => fetch_posts(handle),
     });
 

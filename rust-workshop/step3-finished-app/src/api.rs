@@ -7,7 +7,7 @@ pub type AppResult<T> = ::std::result::Result<T, Box<Error>>;
 #[derive(Deserialize)]
 #[serde(tag = "action")]
 pub enum Request {
-    Post { msg: String, handle: String },
+    Post { message: String, handle: String },
     Fetch { handle: Option<String> },
 }
 

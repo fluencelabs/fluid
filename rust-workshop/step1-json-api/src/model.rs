@@ -1,8 +1,4 @@
-use std::str::FromStr;
-
 use crate::api::AppResult;
-use crate::database;
-use crate::errors::err_msg;
 use log;
 
 pub fn create_scheme() -> AppResult<()> {

@@ -22,12 +22,18 @@ sleep 1 && (docker logs -f frun 2>&1 &) | grep -q initialized && sleep 1
 
 # Send our username to the application
 echo -e "Sending request..."
-echo "curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'$USER --compressed"
-echo
 
-RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$USER" --compressed | jq -r .result.data | base64 -D)
+# Assign json to a variable using heredoc technique
+JSON=$(cat <<JSON
+{"action":"Post","message":"I'm nice, you're nice, it's nice!","handle":"Random Joe"}
+JSON
+)
 
-echo -e "$RESPONSE\n"
+# Send json as a request, and receive result
+RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$JSON" --compressed | jq -r .result.data | base64 -D)
+
+# Parse result as JSON and print to console
+echo -e "$RESPONSE" | jq .
 
 # Remove frun container
 echo -e "Stopping..."
