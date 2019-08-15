@@ -10,7 +10,7 @@ Now let's define some API for our feed backend. Let's use JSON as a communicatio
 
 Two enums – `Request` and `Response` in [api.rs](step1-json-api/src/api.rs) describe API for interaction with frontend.
 
-Method `parse` parses `Request`, and `serialize` converts `Response` back to string, so it can be returned to frontend.
+Method `parse` parses `Request` from JSON, and `serialize` converts `Response` back to JSON string, so it can be returned to frontend.
 
 Here we also define [model.rs](step1-json-api/src/model.rs) – that's how we plan to use our database. Currently it is just a prototype, so we can implement our API in it's full.
 
