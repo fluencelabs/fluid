@@ -25,12 +25,12 @@ export class PostRequest extends Request {
 }
 
 export class FetchRequest extends Request {
-    public readonly filter_handle: string | null;
+    public readonly handle: string | null;
 
-    constructor(filter_handle: string | null) {
+    constructor(handle: string | null) {
         super();
         this.action = Action.Fetch;
-        this.filter_handle = filter_handle;
+        this.handle = handle;
     }
 }
 
@@ -83,7 +83,6 @@ class RequestJSONEventsHandler extends JSONHandler {
             this.msg = value;
         } else if (name == "handle") {
             this.handle = value;
-        } else if (name == "filter_handle") {
             this.filter_handle = value;
         }
         // json scheme is not strict, so we won't throw an error on excess fields

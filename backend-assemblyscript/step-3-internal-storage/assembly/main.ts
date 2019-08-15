@@ -1,7 +1,7 @@
 import {Action, decode, FetchRequest, PostRequest} from "./request";
 import {PostResponse, Message, FetchResponse, UnknownResponse} from "./response";
 
-let messageList: Array<Message> = new Array<Message>();
+let posts: Array<Message> = new Array<Message>();
 
 // main handler for an application
 export function handler(input: string): string {
@@ -10,19 +10,19 @@ export function handler(input: string): string {
 
   if (request.action == Action.Post) {
     let post = request as PostRequest;
-    messageList.push(new Message(post.msg, post.handle));
-    let response = new PostResponse(messageList.length);
+    posts.push(new Message(post.msg, post.handle));
+    let response = new PostResponse(posts.length);
     return response.serialize()
   } else if (request.action == Action.Fetch) {
     let fetch = request as FetchRequest;
     var messages: Array<Message>;
     if (fetch.filter_handle == null) {
-      messages = messageList
+      messages = posts
     } else {
       let filter_handle = fetch.filter_handle as string;
       let filtered = new Array<Message>();
-      for (let i = 0; i < messageList.length; i++) {
-        let message = messageList[i];
+      for (let i = 0; i < posts.length; i++) {
+        let message = posts[i];
         if (message.handle == filter_handle) {
           filtered.push(message)
         }

@@ -34,17 +34,17 @@ export class UnknownResponse extends Response {
 }
 
 export class PostResponse extends Response {
-    numberOfTwits: i32;
-    constructor(numberOfTwits: i32) {
+    msgCount: u32;
+    constructor(msgCount: u32) {
         super();
-        this.numberOfTwits = numberOfTwits;
+        this.msgCount = msgCount;
     }
 
     serialize(): string {
         let encoder = new JSONEncoder();
         encoder.pushObject(null);
         encoder.setString("action", "Post");
-        encoder.setInteger("number_of_twits", this.numberOfTwits);
+        encoder.setInteger("count", this.msgCount);
         encoder.popObject();
 
         return encoder.toString();
@@ -52,20 +52,20 @@ export class PostResponse extends Response {
 }
 
 export class FetchResponse extends Response {
-    messageList: Array<Message>;
+    posts: Array<Message>;
 
-    constructor(messageList: Array<Message>) {
+    constructor(posts: Array<Message>) {
         super();
-        this.messageList = messageList;
+        this.posts = posts;
     }
 
     serialize(): string {
         let encoder = new JSONEncoder();
         encoder.pushObject(null);
         encoder.setString("action", "Fetch");
-        encoder.pushArray("message_list");
-        for (let i = 0; i < this.messageList.length; i++) {
-            let twit = this.messageList[i];
+        encoder.pushArray("posts");
+        for (let i = 0; i < this.posts.length; i++) {
+            let twit = this.posts[i];
             encoder.pushObject(null);
             encoder.setString("msg", twit.msg);
             encoder.setString("handle", twit.handle);
