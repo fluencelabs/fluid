@@ -1,0 +1,22 @@
+[package]
+name = "fluid"
+version = "0.1.0"
+authors = ["Fluence Labs"]
+publish = false
+description = "Decentralized feed built on Fluence"
+edition = "2018"
+
+[lib]
+name = "fluid"
+path = "src/lib.rs"
+crate-type = ["cdylib"]
+
+[profile.release]
+debug = false
+lto = true
+opt-level = "z"
+panic = "abort"
+
+[dependencies]
+log = "0.4"
+fluence = { version = "0.1.6", features = ["wasm_logger"] }

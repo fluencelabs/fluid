@@ -8,9 +8,7 @@ use crate::api::AppResult;
 use crate::errors::err_msg;
 
 pub mod api;
-pub mod database;
 pub mod errors;
-pub mod ffi;
 pub mod model;
 
 fn init() {
