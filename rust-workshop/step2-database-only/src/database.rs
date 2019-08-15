@@ -40,8 +40,6 @@ pub fn query(query: String) -> AppResult<String> {
             result_bytes[i as usize - 4] = b;
         }
 
-        // Deallocate query
-        ffi::deallocate(query_ptr, query_bytes.len());
         // Deallocate query result
         ffi::deallocate(result_ptr, result_size + 4);
 
