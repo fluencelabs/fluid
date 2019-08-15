@@ -25,7 +25,7 @@ echo -e "Sending request..."
 
 # Assign json to a variable using heredoc technique
 JSON=$(cat <<JSON
-{"action":"Post","message":"I'm nice, you're nice, it's nice!","username":"Random Joe"}
+{"action":"Post","message":"I'm nice, you're nice, it's nice!","username":"random_joe"}
 JSON
 )
 
