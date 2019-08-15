@@ -41,10 +41,14 @@ fn add_post(msg: String, handle: String) -> AppResult<Response> {
     Ok(Response::Post { count })
 }
 
-fn fetch_posts(_handle: Option<String>) -> AppResult<Response> {
-    // TODO: filter posts by handle
-    let posts_str = model::get_posts()?;
+fn fetch_posts(handle: Option<String>) -> AppResult<Response> {
+    let posts_str = match handle {
+        Some(h) => model::get_posts_by_handle(h)?,
+        None => model::get_all_posts()?,
+    };
+
     let raw = RawValue::from_string(posts_str)
         .map_err(|e| err_msg(&format!("Can't create RawValue: {}", e)))?;
+
     Ok(Response::Fetch { posts: raw })
 }

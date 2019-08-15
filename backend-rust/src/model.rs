@@ -24,13 +24,23 @@ pub fn add_post(msg: String, handle: String) -> AppResult<()> {
     .map(|_| ())
 }
 
-pub fn get_posts() -> AppResult<String> {
+pub fn get_all_posts() -> AppResult<String> {
     database::query(
         "SELECT json_group_array(
             json_object('msg', msg, 'handle', handle)
         ) AS json_result FROM (SELECT * FROM messages)"
             .to_string(),
     )
+    .map_err(|e| err_msg(&format!("Error retrieving posts: {}", e)))
+}
+
+pub fn get_posts_by_handle(handle: String) -> AppResult<String> {
+    database::query(format!(
+        "SELECT json_group_array(
+            json_object('msg', msg, 'handle', handle)
+        ) AS json_result FROM (SELECT * FROM messages where handle = '{}')",
+        handle
+    ))
     .map_err(|e| err_msg(&format!("Error retrieving posts: {}", e)))
 }
 
