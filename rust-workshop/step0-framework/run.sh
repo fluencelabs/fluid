@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+
+set -e
+
+mkdir -p wasm
+
+# Build fluid WASM module
+echo "Building..."
+cargo +nightly build --target wasm32-unknown-unknown --release >/dev/null
+cp target/wasm32-unknown-unknown/release/*.wasm ./wasm/
+
+# Run it all on 30000 port with default Fluence API
+echo "Running..."
+docker rm -f frun &>/dev/null || true
+docker run -d --name frun --rm -v "$(pwd)/wasm:/code" -p 30000:30000 fluencelabs/frun:latest >/dev/null
+
+# Wait for app to be initialized
+sleep 1 && (docker logs -f frun 2>&1 &) | grep -q initialized && sleep 1
+
+# Send our username to the application
+echo -e "Sending request...\n"
+
+RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$USER" --compressed | jq -r .result.data | base64 -D)
+
+echo -e "$RESPONSE\n"
+
+# Remove frun container
+echo -e "Stopping..."
+docker rm -f frun >/dev/null
