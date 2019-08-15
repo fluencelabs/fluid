@@ -20,10 +20,10 @@ fn init() {
 
 #[invocation_handler(init_fn = init)]
 fn run(arg: String) -> String {
-    // Parse and handle JSON request
+    // Parse and username JSON request
     let result = api::parse(arg).and_then(|request| match request {
-        Request::Post { message, handle } => add_post(message, handle),
-        Request::Fetch { handle } => fetch_posts(handle),
+        Request::Post { message, username } => add_post(message, username),
+        Request::Fetch { username } => fetch_posts(username),
     });
 
     let result = match result {
@@ -37,18 +37,18 @@ fn run(arg: String) -> String {
     api::serialize(&result)
 }
 
-fn add_post(msg: String, handle: String) -> AppResult<Response> {
+fn add_post(msg: String, username: String) -> AppResult<Response> {
     // Store post
-    model::add_post(msg, handle)?;
+    model::add_post(msg, username)?;
     // Get total number of posts
     let count = model::get_posts_count()?;
 
     Ok(Response::Post { count })
 }
 
-fn fetch_posts(handle: Option<String>) -> AppResult<Response> {
-    let posts_str = match handle {
-        // Get all posts if no filter handle was passed
+fn fetch_posts(username: Option<String>) -> AppResult<Response> {
+    let posts_str = match username {
+        // Get all posts if no filter username was passed
         None => model::get_all_posts()?,
         // Or get only posts from specified author
         Some(h) => model::get_posts_by_handle(h)?,

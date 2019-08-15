@@ -14,23 +14,23 @@ export abstract class Request {
 export class PostRequest extends Request {
 
     public readonly msg: string;
-    public readonly handle: string;
+    public readonly username: string;
 
-    constructor(msg: string, handle: string) {
+    constructor(msg: string, username: string) {
         super();
         this.msg = msg;
-        this.handle = handle;
+        this.username = username;
         this.action = Action.Post;
     }
 }
 
 export class FetchRequest extends Request {
-    public readonly handle: string | null;
+    public readonly username: string | null;
 
-    constructor(handle: string | null) {
+    constructor(username: string | null) {
         super();
         this.action = Action.Fetch;
-        this.handle = handle;
+        this.username = username;
     }
 }
 
@@ -60,7 +60,7 @@ export function decode(input: string): Request {
     if (action == "Fetch") {
         request = new FetchRequest(jsonHandler.filter_handle);
     } else if (action == "Post") {
-        request = new PostRequest(jsonHandler.msg, jsonHandler.handle)
+        request = new PostRequest(jsonHandler.msg, jsonHandler.username)
     } else {
         request = new UnknownRequest()
     }
@@ -72,7 +72,7 @@ class RequestJSONEventsHandler extends JSONHandler {
 
     public action: string;
     public msg: string;
-    public handle: string;
+    public username: string;
     public filter_handle: string | null;
 
     setString(name: string, value: string): void {
@@ -81,8 +81,8 @@ class RequestJSONEventsHandler extends JSONHandler {
             this.action = value;
         } else if (name == "msg") {
             this.msg = value;
-        } else if (name == "handle") {
-            this.handle = value;
+        } else if (name == "username") {
+            this.username = value;
             this.filter_handle = value;
         }
         // json scheme is not strict, so we won't throw an error on excess fields

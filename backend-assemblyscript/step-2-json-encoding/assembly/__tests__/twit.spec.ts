@@ -8,8 +8,8 @@ describe("example", () => {
     log<u8>(244); // integers!
     log<u64>(0xFFFFFFFF); // long values!
     log<string>(handler('{"hi": "hi"}'));
-    log<string>(handler('{"action": "Post", "msg": "Hello, Fluence!", "handle": "fluencer"}'));
-    log<string>(handler('{"action": "Post", "msg": "Hello, fluencer!", "handle": "John Doe"}'));
+    log<string>(handler('{"action": "Post", "msg": "Hello, Fluence!", "username": "fluencer"}'));
+    log<string>(handler('{"action": "Post", "msg": "Hello, fluencer!", "username": "John Doe"}'));
     log<string>(handler('{"action": "Fetch"}'));
   });
 });

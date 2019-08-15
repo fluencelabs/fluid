@@ -16,6 +16,6 @@ export function deallocate(ptr: i32, size: usize): void {
 // Returns pointer on a response.
 export function invoke(ptr: i32, size: i32): i32 {
     // this function will parse a request as a string and return result string as a pointer in memory
-    // you can look on other functions in 'assemblyscript-sdk' library to handle own types of requests and responses
+    // you can look on other functions in 'assemblyscript-sdk' library to username own types of requests and responses
     return loggedStringHandler(ptr, size, handler, log);
 }

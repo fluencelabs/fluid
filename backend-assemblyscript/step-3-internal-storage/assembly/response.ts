@@ -9,11 +9,11 @@ export abstract class Response {
 
 export class Message {
     msg: string;
-    handle: string;
+    username: string;
 
-    constructor(msg: string, handle: string) {
+    constructor(msg: string, username: string) {
         this.msg = msg;
-        this.handle = handle;
+        this.username = username;
     }
 }
 
@@ -26,7 +26,7 @@ export class UnknownResponse extends Response {
         let encoder = new JSONEncoder();
         encoder.pushObject(null);
         encoder.setString("action", "Unknown");
-        encoder.setString("msg", "cannot handle request");
+        encoder.setString("msg", "cannot username request");
         encoder.popObject();
 
         return encoder.toString();
@@ -68,7 +68,7 @@ export class FetchResponse extends Response {
             let twit = this.posts[i];
             encoder.pushObject(null);
             encoder.setString("msg", twit.msg);
-            encoder.setString("handle", twit.handle);
+            encoder.setString("username", twit.username);
             encoder.popObject();
         }
         encoder.popArray();

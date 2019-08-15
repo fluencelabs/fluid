@@ -10,7 +10,7 @@ export function handler(input: string): string {
 
   if (request.action == Action.Post) {
     let post = request as PostRequest;
-    posts.push(new Message(post.msg, post.handle));
+    posts.push(new Message(post.msg, post.username));
     let response = new PostResponse(posts.length);
     return response.serialize()
   } else if (request.action == Action.Fetch) {
@@ -23,7 +23,7 @@ export function handler(input: string): string {
       let filtered = new Array<Message>();
       for (let i = 0; i < posts.length; i++) {
         let message = posts[i];
-        if (message.handle == filter_handle) {
+        if (message.username == filter_handle) {
           filtered.push(message)
         }
       }

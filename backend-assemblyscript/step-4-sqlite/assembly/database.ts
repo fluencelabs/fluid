@@ -14,21 +14,21 @@ function doRequest(request: string): string {
 }
 
 export function initTables(): void {
-    let request = "CREATE TABLE messages(msg text, handle text)";
+    let request = "CREATE TABLE messages(msg text, username text)";
     let resp = doRequest(request);
 }
 
-export function addMessage(msg: string, handle: string): void {
-    let request = "INSERT INTO messages VALUES(\"" + msg + "\", \"" + handle + "\")";
+export function addMessage(msg: string, username: string): void {
+    let request = "INSERT INTO messages VALUES(\"" + msg + "\", \"" + username + "\")";
     doRequest(request);
 }
 
-export function getMessages(handle: string | null): string {
-    if (handle) {
-        let request = "SELECT json_group_array(json_object('msg', msg, 'handle', handle)) AS json_result FROM (SELECT * FROM messages WHERE handle = '" + handle + "')";
+export function getMessages(username: string | null): string {
+    if (username) {
+        let request = "SELECT json_group_array(json_object('msg', msg, 'username', username)) AS json_result FROM (SELECT * FROM messages WHERE username = '" + username + "')";
         return doRequest(request);
     } else {
-        let request = "SELECT json_group_array(json_object('msg', msg, 'handle', handle)) AS json_result FROM (SELECT * FROM messages)";
+        let request = "SELECT json_group_array(json_object('msg', msg, 'username', username)) AS json_result FROM (SELECT * FROM messages)";
         return doRequest(request);
     }
 }

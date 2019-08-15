@@ -5,8 +5,8 @@ pub fn create_scheme() -> AppResult<()> {
     Ok(log::info!("creating scheme"))
 }
 
-pub fn add_post(msg: String, handle: String) -> AppResult<()> {
-    Ok(log::info!("add post {} {}", msg, handle))
+pub fn add_post(msg: String, username: String) -> AppResult<()> {
+    Ok(log::info!("add post {} {}", msg, username))
 }
 
 pub fn get_all_posts() -> AppResult<String> {
@@ -14,8 +14,8 @@ pub fn get_all_posts() -> AppResult<String> {
     Ok("[]".to_string())
 }
 
-pub fn get_posts_by_handle(handle: String) -> AppResult<String> {
-    log::info!("get all posts by handle {}", handle);
+pub fn get_posts_by_handle(username: String) -> AppResult<String> {
+    log::info!("get all posts by username {}", username);
     Ok("[]".to_string())
 }
 

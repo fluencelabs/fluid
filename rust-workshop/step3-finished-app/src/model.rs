@@ -5,20 +5,20 @@ use crate::database;
 use crate::errors::err_msg;
 
 pub fn create_scheme() -> AppResult<()> {
-    database::query("CREATE TABLE messages(msg text, handle text)".to_string())
+    database::query("CREATE TABLE messages(msg text, username text)".to_string())
         .map_err(|e| err_msg(&format!("Error creating table messages: {}", e)))
         .map(|_| ())
 }
 
-pub fn add_post(msg: String, handle: String) -> AppResult<()> {
+pub fn add_post(msg: String, username: String) -> AppResult<()> {
     database::query(format!(
         r#"INSERT INTO messages VALUES("{}","{}")"#,
-        msg, handle
+        msg, username
     ))
     .map_err(|e| {
         err_msg(&format!(
             "Error inserting post {} by {}: {}",
-            msg, handle, e
+            msg, username, e
         ))
     })
     .map(|_| ())
@@ -27,19 +27,19 @@ pub fn add_post(msg: String, handle: String) -> AppResult<()> {
 pub fn get_all_posts() -> AppResult<String> {
     database::query(
         "SELECT json_group_array(
-            json_object('msg', msg, 'handle', handle)
+            json_object('msg', msg, 'username', username)
         ) AS json_result FROM (SELECT * FROM messages)"
             .to_string(),
     )
     .map_err(|e| err_msg(&format!("Error retrieving posts: {}", e)))
 }
 
-pub fn get_posts_by_handle(handle: String) -> AppResult<String> {
+pub fn get_posts_by_handle(username: String) -> AppResult<String> {
     database::query(format!(
         "SELECT json_group_array(
-            json_object('msg', msg, 'handle', handle)
-        ) AS json_result FROM (SELECT * FROM messages where handle = '{}')",
-        handle
+            json_object('msg', msg, 'username', username)
+        ) AS json_result FROM (SELECT * FROM messages where username = '{}')",
+        username
     ))
     .map_err(|e| err_msg(&format!("Error retrieving posts: {}", e)))
 }

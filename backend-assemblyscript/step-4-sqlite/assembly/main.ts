@@ -11,7 +11,7 @@ export function handler(input: string): string {
 
   if (request.action == Action.Post) {
     let post = request as PostRequest;
-    addMessage(post.msg, post.handle);
+    addMessage(post.msg, post.username);
     let count = getPostsCount();
 
     let response = new PostResponse(count);
@@ -19,7 +19,7 @@ export function handler(input: string): string {
   } else if (request.action == Action.Fetch) {
     let fetch = request as FetchRequest;
 
-    let result = getMessages(fetch.handle);
+    let result = getMessages(fetch.username);
     return result;
   }
 
