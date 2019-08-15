@@ -25,7 +25,7 @@ export function addMessage(msg: string, handle: string): void {
 
 export function getMessages(handle: string | null): string {
     if (handle) {
-        let request = 'SELECT json_group_array(json_object("msg", msg, "handle", handle)) AS json_result FROM (SELECT * FROM messages WHERE handle = "' + handle + '")';
+        let request = "SELECT json_group_array(json_object('msg', msg, 'handle', handle)) AS json_result FROM (SELECT * FROM messages WHERE handle = '" + handle + "')";
         return doRequest(request);
     } else {
         let request = "SELECT json_group_array(json_object('msg', msg, 'handle', handle)) AS json_result FROM (SELECT * FROM messages)";
