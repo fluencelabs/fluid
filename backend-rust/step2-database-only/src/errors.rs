@@ -14,3 +14,5 @@ impl fmt::Display for Error {
 pub fn err_msg(s: &str) -> Box<Error> {
     Error(s.to_string()).into()
 }
+
+pub type AppResult<T> = ::std::result::Result<T, Box<Error>>;

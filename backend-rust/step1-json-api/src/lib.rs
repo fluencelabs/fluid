@@ -4,8 +4,8 @@ use serde_json::value::RawValue;
 use api::Request;
 use api::Response;
 
-use crate::api::AppResult;
 use crate::errors::err_msg;
+use crate::errors::AppResult;
 
 pub mod api;
 pub mod errors;

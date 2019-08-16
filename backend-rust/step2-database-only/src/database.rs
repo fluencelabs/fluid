@@ -1,6 +1,7 @@
 use log;
 
-use crate::api::AppResult;
+use crate::errors::AppResult;
+
 use crate::errors::err_msg;
 use crate::ffi;
 

@@ -1,8 +1,6 @@
-use crate::errors::{err_msg, Error};
+use crate::errors::{err_msg, AppResult, Error};
 use serde::{Deserialize, Serialize};
 use serde_json::value::RawValue;
-
-pub type AppResult<T> = ::std::result::Result<T, Box<Error>>;
 
 #[derive(Deserialize)]
 #[serde(tag = "action")]

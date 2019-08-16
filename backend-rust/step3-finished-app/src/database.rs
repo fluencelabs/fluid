@@ -1,7 +1,7 @@
 use log;
 
-use crate::api::AppResult;
 use crate::errors::err_msg;
+use crate::errors::AppResult;
 use crate::ffi;
 
 // Execute query on SQLite

@@ -1,8 +1,8 @@
 use std::str::FromStr;
 
-use crate::api::AppResult;
 use crate::database;
 use crate::errors::err_msg;
+use crate::errors::AppResult;
 
 pub fn create_scheme() -> AppResult<()> {
     database::query("CREATE TABLE messages(msg text, username text)".to_string())

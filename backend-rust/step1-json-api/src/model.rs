@@ -1,5 +1,6 @@
-use crate::api::AppResult;
 use log;
+
+use crate::errors::AppResult;
 
 pub fn create_scheme() -> AppResult<()> {
     Ok(log::info!("creating scheme"))
