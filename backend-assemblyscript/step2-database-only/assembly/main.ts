@@ -3,7 +3,7 @@ import {query} from "../node_modules/db-connector/assembly/sqlite"
 
 // main handler for an application
 export function handler(username: string): string {
-      // Create table for messages storage
+    // Create table for messages storage
     query(`CREATE TABLE messages(msg text, username text)`);
 
     // Insert message 'Hello, username!' using `username` as author's username

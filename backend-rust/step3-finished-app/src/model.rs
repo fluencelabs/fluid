@@ -7,7 +7,7 @@ use crate::errors::err_msg;
 pub fn create_scheme() -> AppResult<()> {
     database::query("CREATE TABLE messages(msg text, username text)".to_string())
         .map_err(|e| err_msg(&format!("Error creating table messages: {}", e)))
-        .map(|_| ())
+        .map(drop)
 }
 
 pub fn add_post(msg: String, username: String) -> AppResult<()> {
@@ -21,7 +21,7 @@ pub fn add_post(msg: String, username: String) -> AppResult<()> {
             msg, username, e
         ))
     })
-    .map(|_| ())
+    .map(drop)
 }
 
 pub fn get_all_posts() -> AppResult<String> {
