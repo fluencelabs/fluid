@@ -5,20 +5,20 @@ use crate::errors::err_msg;
 use crate::errors::AppResult;
 
 pub fn create_scheme() -> AppResult<()> {
-    database::query("CREATE TABLE messages(msg text, username text)".to_string())
+    database::query("CREATE TABLE messages(message text, username text)".to_string())
         .map_err(|e| err_msg(&format!("Error creating table messages: {}", e)))
         .map(drop)
 }
 
-pub fn add_post(msg: String, username: String) -> AppResult<()> {
+pub fn add_post(message: String, username: String) -> AppResult<()> {
     database::query(format!(
         r#"INSERT INTO messages VALUES("{}","{}")"#,
-        msg, username
+        message, username
     ))
     .map_err(|e| {
         err_msg(&format!(
             "Error inserting post {} by {}: {}",
-            msg, username, e
+            message, username, e
         ))
     })
     .map(drop)
@@ -27,7 +27,7 @@ pub fn add_post(msg: String, username: String) -> AppResult<()> {
 pub fn get_all_posts() -> AppResult<String> {
     database::query(
         "SELECT json_group_array(
-            json_object('msg', msg, 'username', username)
+            json_object('message', message, 'username', username)
         ) AS json_result FROM (SELECT * FROM messages)"
             .to_string(),
     )
@@ -37,7 +37,7 @@ pub fn get_all_posts() -> AppResult<String> {
 pub fn get_posts_by_username(username: String) -> AppResult<String> {
     database::query(format!(
         "SELECT json_group_array(
-            json_object('msg', msg, 'username', username)
+            json_object('message', message, 'username', username)
         ) AS json_result FROM (SELECT * FROM messages where username = '{}')",
         username
     ))

@@ -6,8 +6,8 @@ pub fn create_scheme() -> AppResult<()> {
     Ok(log::info!("creating scheme"))
 }
 
-pub fn add_post(msg: String, username: String) -> AppResult<()> {
-    Ok(log::info!("add post {} {}", msg, username))
+pub fn add_post(message: String, username: String) -> AppResult<()> {
+    Ok(log::info!("add post {} {}", message, username))
 }
 
 pub fn get_all_posts() -> AppResult<String> {

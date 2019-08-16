@@ -13,12 +13,12 @@ export abstract class Request {
 
 export class PostRequest extends Request {
 
-    public readonly msg: string;
+    public readonly message: string;
     public readonly username: string;
 
-    constructor(msg: string, username: string) {
+    constructor(message: string, username: string) {
         super();
-        this.msg = msg;
+        this.message = message;
         this.username = username;
         this.action = Action.Post;
     }
@@ -60,7 +60,7 @@ export function decode(input: string): Request {
     if (action == "Fetch") {
         request = new FetchRequest(jsonHandler.filter_handle);
     } else if (action == "Post") {
-        request = new PostRequest(jsonHandler.msg, jsonHandler.username)
+        request = new PostRequest(jsonHandler.message, jsonHandler.username)
     } else {
         request = new UnknownRequest()
     }
@@ -71,7 +71,7 @@ export function decode(input: string): Request {
 class RequestJSONEventsHandler extends JSONHandler {
 
     public action: string;
-    public msg: string;
+    public message: string;
     public username: string;
     public filter_handle: string | null;
 
@@ -79,8 +79,8 @@ class RequestJSONEventsHandler extends JSONHandler {
 
         if (name == "action") {
             this.action = value;
-        } else if (name == "msg") {
-            this.msg = value;
+        } else if (name == "message") {
+            this.message = value;
         } else if (name == "username") {
             this.username = value;
             this.filter_handle = value;

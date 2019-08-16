@@ -11,7 +11,7 @@ fn init() {
 #[invocation_handler(init_fn = init)]
 fn run(nickname: String) -> String {
     // Create table for messages storage
-    database::query("CREATE TABLE messages(msg text, username text)".to_string())
+    database::query("CREATE TABLE messages(message text, username text)".to_string())
         .expect("error on CREATE TABLE");
 
     // Insert message 'Hello, username!' using `nickname` as author's username
@@ -29,7 +29,7 @@ fn run(nickname: String) -> String {
     // Get all messages as JSON via SQLite's JSON extension
     database::query(
         "SELECT json_group_array(
-            json_object('msg', msg, 'username', username)
+            json_object('message', message, 'username', username)
         ) AS json_result FROM (SELECT * FROM messages)"
             .to_string(),
     )

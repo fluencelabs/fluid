@@ -11,7 +11,7 @@ export function handler(input: string): string {
 
   if (request.action == Action.Post) {
     let post = request as PostRequest;
-    addMessage(post.msg, post.username);
+    addMessage(post.message, post.username);
     let count = getPostsCount();
 
     let response = new PostResponse(count);

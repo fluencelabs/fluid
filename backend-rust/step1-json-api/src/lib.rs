@@ -35,9 +35,9 @@ fn run(arg: String) -> String {
     api::serialize(&result)
 }
 
-fn add_post(msg: String, username: String) -> AppResult<Response> {
+fn add_post(message: String, username: String) -> AppResult<Response> {
     // Store post
-    model::add_post(msg, username)?;
+    model::add_post(message, username)?;
     // Get total number of posts
     let count = model::get_posts_count()?;
 

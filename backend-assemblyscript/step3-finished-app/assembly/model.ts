@@ -1,12 +1,12 @@
 import {query} from "../node_modules/db-connector/assembly/sqlite"
 
 export function createScheme(): void {
-    let request = `CREATE TABLE messages(msg text, username text)`;
+    let request = `CREATE TABLE messages(message text, username text)`;
     query(request);
 }
 
-export function addMessage(msg: string, username: string): void {
-    let request = `INSERT INTO messages VALUES("` + msg + `", "` + username + `")`;
+export function addMessage(message: string, username: string): void {
+    let request = `INSERT INTO messages VALUES("` + message + `", "` + username + `")`;
     query(request);
 }
 
@@ -15,14 +15,14 @@ export function getMessages(username: string | null): string {
 
         let request =
             `SELECT json_group_array(
-                json_object('msg', msg, 'username', username)
+                json_object('message', message, 'username', username)
             ) AS json_result FROM 
                 (SELECT * FROM messages WHERE username = "` + username + `")`;
         return query(request);
     } else {
         let request =
             `SELECT json_group_array(
-                json_object('msg', msg, 'username', username)
+                json_object('message', message, 'username', username)
             ) AS json_result FROM (SELECT * FROM messages)`;
         return query(request);
     }
