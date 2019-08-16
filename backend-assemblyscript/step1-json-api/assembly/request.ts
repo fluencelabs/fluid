@@ -4,7 +4,6 @@ export enum Action {
     Post,
     Fetch,
     Unknown
-    // Error
 }
 
 export abstract class Request {
@@ -25,12 +24,9 @@ export class PostRequest extends Request {
 }
 
 export class FetchRequest extends Request {
-    public readonly filter_handle: string | null;
-
-    constructor(filter_handle: string | null) {
+    constructor() {
         super();
         this.action = Action.Fetch;
-        this.filter_handle = filter_handle;
     }
 }
 
@@ -41,7 +37,7 @@ export class UnknownRequest extends Request {
     }
 }
 
-export function string2Bytes(str: string): Uint8Array {
+function string2Bytes(str: string): Uint8Array {
     return Uint8Array.wrap(String.UTF8.encode(str));
 }
 
@@ -58,7 +54,7 @@ export function decode(input: string): Request {
     let request: Request;
 
     if (action == "Fetch") {
-        request = new FetchRequest(jsonHandler.filter_handle);
+        request = new FetchRequest();
     } else if (action == "Post") {
         request = new PostRequest(jsonHandler.msg, jsonHandler.username)
     } else {
@@ -73,7 +69,6 @@ class RequestJSONEventsHandler extends JSONHandler {
     public action: string;
     public msg: string;
     public username: string;
-    public filter_handle: string | null;
 
     setString(name: string, value: string): void {
 
@@ -83,8 +78,6 @@ class RequestJSONEventsHandler extends JSONHandler {
             this.msg = value;
         } else if (name == "username") {
             this.username = value;
-        } else if (name == "filter_handle") {
-            this.filter_handle = value;
         }
         // json scheme is not strict, so we won't throw an error on excess fields
     }

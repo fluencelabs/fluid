@@ -49,7 +49,7 @@ fn fetch_posts(username: Option<String>) -> AppResult<Response> {
         // Get all posts if no filter username was passed
         None => model::get_all_posts()?,
         // Or get only posts from specified author
-        Some(h) => model::get_posts_by_handle(h)?,
+        Some(h) => model::get_posts_by_username(h)?,
     };
 
     // Some Rust-specific detail to play nice with serialization, doesn't matter

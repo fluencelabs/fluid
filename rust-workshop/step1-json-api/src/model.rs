@@ -14,7 +14,7 @@ pub fn get_all_posts() -> AppResult<String> {
     Ok("[]".to_string())
 }
 
-pub fn get_posts_by_handle(username: String) -> AppResult<String> {
+pub fn get_posts_by_username(username: String) -> AppResult<String> {
     log::info!("get all posts by username {}", username);
     Ok("[]".to_string())
 }

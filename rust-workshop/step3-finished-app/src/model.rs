@@ -34,7 +34,7 @@ pub fn get_all_posts() -> AppResult<String> {
     .map_err(|e| err_msg(&format!("Error retrieving posts: {}", e)))
 }
 
-pub fn get_posts_by_handle(username: String) -> AppResult<String> {
+pub fn get_posts_by_username(username: String) -> AppResult<String> {
     database::query(format!(
         "SELECT json_group_array(
             json_object('msg', msg, 'username', username)
