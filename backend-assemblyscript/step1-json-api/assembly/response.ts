@@ -7,6 +7,16 @@ export abstract class Response {
     };
 }
 
+export class Message {
+    msg: string;
+    username: string;
+
+    constructor(msg: string, username: string) {
+        this.msg = msg;
+        this.username = username;
+    }
+}
+
 export class UnknownResponse extends Response {
     constructor() {
         super();
@@ -24,8 +34,8 @@ export class UnknownResponse extends Response {
 }
 
 export class PostResponse extends Response {
-    msgCount: i32;
-    constructor(msgCount: i32) {
+    msgCount: u32;
+    constructor(msgCount: u32) {
         super();
         this.msgCount = msgCount;
     }
@@ -42,9 +52,9 @@ export class PostResponse extends Response {
 }
 
 export class FetchResponse extends Response {
-    posts: Array<string>;
+    posts: Array<Message>;
 
-    constructor(posts: Array<string>) {
+    constructor(posts: Array<Message>) {
         super();
         this.posts = posts;
     }
@@ -55,9 +65,10 @@ export class FetchResponse extends Response {
         encoder.setString("action", "Fetch");
         encoder.pushArray("posts");
         for (let i = 0; i < this.posts.length; i++) {
-            let message = this.posts[i];
+            let twit = this.posts[i];
             encoder.pushObject(null);
-            encoder.setString("msg", message);
+            encoder.setString("msg", twit.msg);
+            encoder.setString("username", twit.username);
             encoder.popObject();
         }
         encoder.popArray();

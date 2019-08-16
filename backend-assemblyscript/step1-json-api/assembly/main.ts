@@ -1,9 +1,8 @@
-import {Action, decode, PostRequest} from "./request";
-import {PostResponse, FetchResponse, UnknownResponse} from "./response";
+import {Action, decode, FetchRequest, PostRequest} from "./request";
+import {PostResponse, UnknownResponse} from "./response";
+import {addMessage, createScheme, getMessages, getPostsCount} from "./model";
 
-let messages = new Array<string>();
-messages.push("hello");
-messages.push("hi!");
+createScheme();
 
 // main handler for an application
 export function handler(input: string): string {
@@ -12,11 +11,16 @@ export function handler(input: string): string {
 
   if (request.action == Action.Post) {
     let post = request as PostRequest;
-    let response = new PostResponse(0);
+    addMessage(post.msg, post.username);
+    let count = getPostsCount();
+
+    let response = new PostResponse(count);
     return response.serialize()
   } else if (request.action == Action.Fetch) {
-    let response = new FetchResponse(messages);
-    return response.serialize()
+    let fetch = request as FetchRequest;
+
+    let result = getMessages(fetch.username);
+    return result;
   }
 
   let response = new UnknownResponse();

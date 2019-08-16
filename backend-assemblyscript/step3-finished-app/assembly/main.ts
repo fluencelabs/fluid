@@ -1,8 +1,8 @@
 import {Action, decode, FetchRequest, PostRequest} from "./request";
-import {PostResponse, Message, FetchResponse, UnknownResponse} from "./response";
-import {addMessage, getMessages, getPostsCount, initTables} from "./database";
+import {PostResponse, UnknownResponse} from "./response";
+import {addMessage, createScheme, getMessages, getPostsCount} from "./model";
 
-initTables();
+createScheme();
 
 // main handler for an application
 export function handler(input: string): string {
