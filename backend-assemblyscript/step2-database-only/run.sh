@@ -4,6 +4,13 @@ set -e
 
 mkdir -p wasm
 
+# Download SQLite
+SQLITE="sqlite3_0.2.0.wasm"
+if [ ! -f "wasm/$SQLITE" ]; then
+  echo "Downloading $SQLITE..."
+  wget -q https://github.com/fluencelabs/sqlite/releases/download/v0.2.0_w/$SQLITE -O ./wasm/$SQLITE
+fi
+
 # Build fluid WASM module
 echo "Building..."
 npm --silent install
@@ -29,7 +36,9 @@ echo
 
 RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$REQUEST" --compressed | jq -r .result.data | base64 -D)
 
-echo -e "$RESPONSE\n"
+# Parse json or print response as is
+echo "$RESPONSE" | jq . 2>/dev/null || echo "$RESPONSE"
+echo
 
 # Remove frun container
 echo -e "Stopping..."

@@ -8,7 +8,7 @@ mkdir -p wasm
 echo "Building..."
 npm --silent install
 npm --quiet run flbuild
-cp build/*.wasm ./wasm/
+cp build/fluid.wasm ./wasm/
 echo
 
 # Run it all on 30000 port with default Fluence API
