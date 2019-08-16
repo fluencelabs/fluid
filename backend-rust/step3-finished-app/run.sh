@@ -60,7 +60,6 @@ JSON
 
 echo -e "Fetching posts: $JSON"
 
-
 # Send json as a request, and receive result
 RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/1\n'"$JSON" --compressed | jq -r .result.data | base64 -D)
 
