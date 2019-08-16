@@ -4,6 +4,7 @@ set -e
 
 mkdir -p wasm
 
+# Download SQLite
 SQLITE="sqlite3_0.2.0.wasm"
 if [ ! -f "wasm/$SQLITE" ]; then
   echo "Downloading $SQLITE..."
