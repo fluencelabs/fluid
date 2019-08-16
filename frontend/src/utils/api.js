@@ -17,22 +17,24 @@ export function getMessages () {
             let posts = JSON.parse(r);
             console.log("posts");
             console.log(posts);
-            return {
-                messages: posts.map((p) => {
-                    return {
-                        text: p.msg,
-                        name: p.username
-                    }
-                })
-            }
+            let list = posts.map((p) => {
+                return {
+                    text: p.msg,
+                    name: p.username
+                }
+            });
+            console.log(list);
+            return list;
         });
 }
 
 export function saveMessage(message) {
+    console.log("save message");
+    console.log(message);
     let request = {
         action: "Post",
         msg: message.text,
         username: message.name
     };
-    return session.requestAsync(request).then(() => message);
+    return session.requestAsync(JSON.stringify(request)).then(() => message);
 }
