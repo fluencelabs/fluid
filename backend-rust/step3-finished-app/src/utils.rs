@@ -1,7 +1,7 @@
 use crate::errors::{err_msg, AppResult};
 use crate::sqlite;
 
-pub fn sqlite_call_wrapper(bytes: &str) -> AppResult<String> {
+pub fn sqlite_call(bytes: &str) -> AppResult<String> {
     let response = sqlite::call(bytes.as_bytes());
 
     // Decode query result to a utf8 string
