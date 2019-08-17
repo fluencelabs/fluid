@@ -1,6 +1,4 @@
-import { saveMessage } from "../utils/api";
-
-//importing loading bar to show when we submit a tweet
+import {getMessages, saveMessage} from "../utils/api";
 import { showLoading, hideLoading } from "react-redux-loading";
 
 export const ADD_MESSAGE = "ADD_MESSAGE";
@@ -13,9 +11,31 @@ function addMessage(message) {
     };
 }
 
-//args: message text and the message that the newTweet is replying to, if any
+export function fetchPosts(counter) {
+    return dispatch => {
+
+        return getMessages().then((messages) => {
+            dispatch(receiveMessages(messages, counter));
+            dispatch(hideLoading());
+        });
+    };
+}
+
+export function handleInitialData() {
+    return dispatch => {
+        //before retrieving info, show loading bar
+        dispatch(showLoading());
+
+        return getMessages().then((messages) => {
+            dispatch(receiveMessages(messages, 0));
+
+            //after everything has loaded, hide loading bar
+            dispatch(hideLoading());
+        });
+    };
+}
+
 export function handleAddMessage(text, name) {
-    //using getState to get the current state of our store
     return (dispatch) => {
         dispatch(showLoading());
         return saveMessage({
@@ -28,9 +48,10 @@ export function handleAddMessage(text, name) {
 }
 
 //action creator
-export function receiveMessages(messages) {
+export function receiveMessages(messages, counter) {
     return {
         type: RECEIVE_MESSAGES,
+        counter,
         messages
     };
 }

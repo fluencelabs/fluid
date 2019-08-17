@@ -1,6 +1,6 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
-import { handleAddMessage } from "../actions/messages";
+import React, {Component} from "react";
+import {connect} from "react-redux";
+import {handleAddMessage} from "../actions/messages";
 
 class NewMessage extends Component {
     state = {
@@ -45,16 +45,17 @@ class NewMessage extends Component {
 
         return (
             <div>
-                <h3 className="center">Compose new Tweet </h3>
+                <h3 className="center">Compose new message </h3>
                 <form className="new-message" onSubmit={this.handleSubmit}>
-          <textarea
-              placeholder="Message"
-              value={text}
-              onChange={this.handleChangeText}
-              className="textarea"
-              maxLength={280}
-          />
-          <input type="text" placeholder="Name" value={name} onChange={this.handleChangeName}/>
+                    <textarea
+                        placeholder="Message"
+                        value={text}
+                        onChange={this.handleChangeText}
+                        className="textarea"
+                        maxLength={280}
+                    />
+                    <input type="text" className="nameinput" placeholder="Name" value={name}
+                           onChange={this.handleChangeName}/>
                     {/* show how many characters are left */}
                     {messageLeft <= 100 && <div className="message-length">{messageLeft}</div>}
 

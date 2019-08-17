@@ -1,10 +1,10 @@
 import { combineReducers } from "redux";
 
-import messages from "./messages";
+import updates from "./messages";
 
 import { loadingBarReducer } from "react-redux-loading";
 
 export default combineReducers({
-    messages,
+    updates: updates,
     loadingBar: loadingBarReducer
 });
