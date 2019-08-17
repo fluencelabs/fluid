@@ -1,5 +1,5 @@
 import {Action, decode, FetchRequest, PostRequest} from "./request";
-import {PostResponse, UnknownResponse} from "./response";
+import {decodePosts, PostResponse, UnknownResponse} from "./response";
 import {addMessage, createScheme, getMessages, getPostsCount} from "./model";
 
 createScheme();
@@ -20,7 +20,9 @@ export function handler(input: string): string {
     let fetch = request as FetchRequest;
 
     let result = getMessages(fetch.username);
-    return result;
+
+    let response = decodePosts(result);
+    return response.serialize();
   }
 
   let response = new UnknownResponse();
