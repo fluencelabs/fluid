@@ -2,7 +2,7 @@ import React, {Component, Fragment} from "react";
 import {BrowserRouter as Router} from "react-router-dom";
 import {connect} from "react-redux";
 
-import LoadingBar from "react-redux-loading"; //importing the loading bar given by react-redux-loading
+import LoadingBar from "react-redux-loading-bar";
 import Dashboard from "./Dashboard";
 import NewMessage from "./NewMessage";
 import ConnectionToggle from "./ConnectionToggle";

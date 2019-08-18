@@ -18,7 +18,7 @@ class Message extends Component {
         return (
             <div className="message-info">
                 <div>
-                    <span><b>{name}</b></span>
+                    <p><b>{name}</b></p>
                     <p>{text}</p>
                 </div>
             </div>

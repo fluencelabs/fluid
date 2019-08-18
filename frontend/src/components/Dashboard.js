@@ -8,7 +8,7 @@ class Dashboard extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {counter: 1, lastUpdateCounter: 0};
+        this.state = {counter: 1, lastUpdateCounter: 0, firstFetch: true};
     }
 
     componentDidMount() {
@@ -24,10 +24,11 @@ class Dashboard extends Component {
     }
 
     getMessages() {
-        this.props.dispatch(fetchPosts(this.state.counter + 1));
+        this.props.dispatch(fetchPosts(this.state.counter + 1, this.state.firstFetch));
 
         this.setState((state) => ({
-            counter: state.counter + 1
+            counter: state.counter + 1,
+            firstFetch: false
         }));
     }
 

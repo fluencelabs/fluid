@@ -1,5 +1,5 @@
 import {getMessages, saveMessage} from "../utils/api";
-import { showLoading, hideLoading } from "react-redux-loading";
+import { showLoading, hideLoading } from "react-redux-loading-bar";
 
 export const ADD_MESSAGE = "ADD_MESSAGE";
 export const RECEIVE_MESSAGES = "RECEIVE_MESSAGES";
@@ -11,12 +11,17 @@ function addMessage(message) {
     };
 }
 
-export function fetchPosts(counter) {
+export function fetchPosts(counter, withBar) {
     return dispatch => {
-
+        if (withBar) {
+            dispatch(showLoading());
+        }
         return getMessages().then((messages) => {
             dispatch(receiveMessages(messages, counter));
-            dispatch(hideLoading());
+        }).finally(() => {
+            if (withBar) {
+                dispatch(hideLoading());
+            }
         });
     };
 }

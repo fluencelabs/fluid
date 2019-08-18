@@ -90,6 +90,12 @@ li {
   margin: 5px;
   display: flex;
   flex-direction: column;
+  border: 1px solid #dad7d7;
+  border-radius: 25px;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 25px;
+  padding-right: 25px;
 }
 
 /* Hacky but less typing in the video */
