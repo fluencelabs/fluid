@@ -21,11 +21,12 @@ echo
 sleep 1 && (docker logs -f frun 2>&1 &) | grep -q initialized && sleep 1
 
 # Send our username to the application
-echo -e "Sending request..."
-echo "curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'$USER --compressed"
+REQUEST="$USER"
+echo -e "Sending request: $REQUEST"
+echo "curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$REQUEST" --compressed"
 echo
 
-RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$USER" --compressed | jq -r .result.data | base64 -D)
+RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$REQUEST" --compressed | jq -r .result.data | base64 -D)
 
 echo -e "$RESPONSE\n"
 

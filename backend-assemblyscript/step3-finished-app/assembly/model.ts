@@ -12,7 +12,6 @@ export function addMessage(message: string, username: string): void {
 
 export function getMessages(username: string | null): string {
     if (username) {
-
         let request =
             `SELECT json_group_array(
                 json_object('message', message, 'username', username)
