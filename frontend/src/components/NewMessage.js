@@ -3,10 +3,13 @@ import {connect} from "react-redux";
 import {handleAddMessage} from "../actions/messages";
 
 class NewMessage extends Component {
-    state = {
-        text: "",
-        name: ""
-    };
+    constructor(props) {
+        super(props);
+        this.state = {
+            text: "",
+            name: ""
+        };
+    }
 
     handleChangeText = e => {
         const text = e.target.value;

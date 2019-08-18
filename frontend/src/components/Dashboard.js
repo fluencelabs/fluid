@@ -60,7 +60,6 @@ class Dashboard extends Component {
     }
 }
 
-//destructuring messages from state
 function mapStateToProps(state) {
     return state;
 }
