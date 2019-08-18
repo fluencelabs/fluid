@@ -3,8 +3,6 @@ use fluence::sdk::*;
 pub mod database;
 pub mod errors;
 
-use crate::database;
-
 fn init() {
     logger::WasmLogger::init_with_level(log::Level::Info).unwrap();
 }
