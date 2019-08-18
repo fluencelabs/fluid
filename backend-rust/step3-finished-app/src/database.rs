@@ -9,7 +9,7 @@ pub fn query(query: &str) -> AppResult<String> {
 
     // Log if there's an error
     if result_str.is_err() {
-        log::error!("unable to decode result from bytes: {:#x?}", bytes);
+        log::error!("unable to decode result from bytes: {:#x?}", response);
     }
 
     // Wrap error with a better message, and return Result
@@ -17,7 +17,7 @@ pub fn query(query: &str) -> AppResult<String> {
         .map_err(|e| {
             err_msg(&format!(
                 "unable to decode result from bytes {:#x?}: {}",
-                query, e
+                response, e
             ))
         })
         .map(|s| s.to_string())
