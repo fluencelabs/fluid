@@ -5,6 +5,7 @@ import {connect} from "react-redux";
 import LoadingBar from "react-redux-loading"; //importing the loading bar given by react-redux-loading
 import Dashboard from "./Dashboard";
 import NewMessage from "./NewMessage";
+import ConnectionToggle from "./ConnectionToggle";
 
 class App extends Component {
 
@@ -16,7 +17,11 @@ class App extends Component {
                 <div className="container">
                   {this.props.loading === true ? null : (
                       <div>
-                          <NewMessage />
+                          <div>
+                              <div style={{float: "left", position: "absolute"}}><ConnectionToggle /></div>
+                              <div style={{float: "center"}}><NewMessage /></div>
+                          </div>
+
                           <Dashboard />
                       </div>
                   )}

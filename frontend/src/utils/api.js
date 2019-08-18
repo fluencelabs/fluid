@@ -2,6 +2,18 @@ import * as fluence from "fluence";
 
 let session = fluence.directConnect("localhost", 30000, 1);
 
+export async function toggleConnection(devnet, appId = 412) {
+    if (devnet) {
+        fluence.connect("0xeFF91455de6D4CF57C141bD8bF819E5f873c1A01", appId).then((s) => {
+            session = s;
+            return s
+        })
+    } else {
+        session = fluence.directConnect("localhost", 30000, 1);
+        Promise.resolve(session)
+    }
+}
+
 export function getMessages () {
     let request = {
         action: "Fetch"
