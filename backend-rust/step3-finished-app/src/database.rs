@@ -4,21 +4,12 @@ use crate::sqlite;
 pub fn query(query: &str) -> AppResult<String> {
     let response = sqlite::call(query.as_bytes());
 
-    // Decode query result to a utf8 string
-    let result_str = std::str::from_utf8(&response);
-
-    // Log if there's an error
-    if result_str.is_err() {
-        log::error!("unable to decode result from bytes: {:#x?}", response);
-    }
-
-    // Wrap error with a better message, and return Result
-    result_str
-        .map_err(|e| {
-            err_msg(&format!(
-                "unable to decode result from bytes {:#x?}: {}",
-                response, e
-            ))
-        })
-        .map(|s| s.to_string())
+    // Add more details to error message
+    String::from_utf8(response).map_err(|e| {
+        log::error!("unable to decode result from bytes: {:#x?}", bytes);
+        err_msg(&format!(
+            "unable to decode result from bytes {:#x?}: {}",
+            query, e
+        ))
+    })
 }
