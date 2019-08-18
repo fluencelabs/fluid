@@ -26,10 +26,10 @@ export class PostRequest extends Request {
 
 export class FetchRequest extends Request {
     public readonly username: string | null;
-    public readonly offset: u32;
-    public readonly count: u32;
+    public readonly offset: i64;
+    public readonly count: i64;
 
-    constructor(username: string | null, offset: u32, count: u32) {
+    constructor(username: string | null, offset: i64, count: i64) {
         super();
         this.action = Action.Fetch;
         this.username = username;
@@ -78,13 +78,18 @@ class RequestJSONEventsHandler extends JSONHandler {
     public message: string;
     public username: string;
     public filter_handle: string | null;
-    public offset: u32;
-    public count: u32;
+    public offset: i64 = 0;
+    public count: i64 = 100;
+
+    setInteger(name: string, value: i64): void {
+        if (name == "offset") {
+            this.offset = value;
+        } else if (name == "count") {
+            this.count = value;
+        }
+    }
 
     setString(name: string, value: string): void {
-        this.offset = 0;
-        this.count = 100;
-
         if (name == "action") {
             this.action = value;
         } else if (name == "message") {
@@ -92,11 +97,6 @@ class RequestJSONEventsHandler extends JSONHandler {
         } else if (name == "username") {
             this.username = value;
             this.filter_handle = value;
-        } else if (name == "offset") {
-            this.offset = U32.parseInt(value);
-        } else if (name == "count") {
-            this.count = U32.parseInt(value);
         }
-        // json scheme is not strict, so we won't throw an error on excess fields
     }
 }

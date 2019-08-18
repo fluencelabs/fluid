@@ -10,7 +10,7 @@ export function addMessage(message: string, username: string): void {
     query(request);
 }
 
-export function getMessages(username: string | null, offset: u32, count: u32): string {
+export function getMessages(username: string | null, offset: i64, count: i64): string {
     let limitClause = ` LIMIT ` + count.toString() + ` OFFSET ` + offset.toString() + ` `;
     if (username) {
         let whereClause = ` WHERE username = "` + username + `" `;

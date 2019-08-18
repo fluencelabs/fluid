@@ -9,6 +9,28 @@ import ConnectionToggle from "./ConnectionToggle";
 
 class App extends Component {
 
+    componentDidMount() {
+        console.log(`
+
+Hello, Fluencer!
+Thank you for trying Fluence out!
+You can find docs at https://fluence.dev
+Check out http://dash.fluence.network to deploy your own SQL DB instance
+Check out https://github.com/fluencelabs/tutorials for more Fluence examples
+If you have any questions, feel free to join our Discord https://fluence.chat :)
+
+You can send requests to Fluence network straight from console:
+
+// send the message and don't wait for a response
+fluenceSession.requestAsync('{"action": "Post", "message": "Hello, Fluence!", "username": "fluencer"}')
+
+// get the last message, decode response as a string and print it in the console
+fluenceSession.request('{"action": "Fetch", "offset": 0, "limit": 1}').then((r) => r.asString()).then(console.log)                   
+
+  
+`)
+    }
+
     render() {
         return (
             <Router>
