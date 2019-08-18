@@ -1,6 +1,7 @@
 #!/usr/bin/env bash
 
 set -e
+set -o pipefail
 
 command -v jq >/dev/null 2>&1 || {
     echo >&2 "jq is not installed, wouldn't parse responses"
@@ -64,7 +65,7 @@ echo "$RESPONSE" | jq . 2>/dev/null || echo "$RESPONSE"
 
 # Assign json to a variable using heredoc technique
 JSON=$(cat <<JSON
-{"action":"Fetch", "handle": "random_joe"}
+{"action":"Fetch", "handle": "random_joe", "offset": 0, "limit": 10}
 JSON
 )
 

@@ -19,7 +19,7 @@ export function handler(input: string): string {
   } else if (request.action == Action.Fetch) {
     let fetch = request as FetchRequest;
 
-    let result = getMessages(fetch.username);
+    let result = getMessages(fetch.username, fetch.offset, fetch.count);
     return result;
   }
 

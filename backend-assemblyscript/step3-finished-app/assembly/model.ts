@@ -10,19 +10,21 @@ export function addMessage(message: string, username: string): void {
     query(request);
 }
 
-export function getMessages(username: string | null): string {
+export function getMessages(username: string | null, offset: u32, count: u32): string {
+    let limitClause = ` LIMIT ` + count.toString() + ` OFFSET ` + offset.toString() + ` `;
     if (username) {
+        let whereClause = ` WHERE username = "` + username + `" `;
         let request =
             `SELECT json_group_array(
                 json_object('message', message, 'username', username)
             ) AS json_result FROM 
-                (SELECT * FROM messages WHERE username = "` + username + `")`;
+                (SELECT * FROM messages` + whereClause + limitClause + `)`;
         return query(request);
     } else {
         let request =
             `SELECT json_group_array(
                 json_object('message', message, 'username', username)
-            ) AS json_result FROM (SELECT * FROM messages)`;
+            ) AS json_result FROM (SELECT * FROM messages` + limitClause + `)`;
         return query(request);
     }
 }

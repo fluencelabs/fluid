@@ -26,11 +26,15 @@ export class PostRequest extends Request {
 
 export class FetchRequest extends Request {
     public readonly username: string | null;
+    public readonly offset: u32;
+    public readonly count: u32;
 
-    constructor(username: string | null) {
+    constructor(username: string | null, offset: u32, count: u32) {
         super();
         this.action = Action.Fetch;
         this.username = username;
+        this.offset = offset;
+        this.count = count;
     }
 }
 
@@ -46,21 +50,21 @@ export function string2Bytes(str: string): Uint8Array {
 }
 
 export function decode(input: string): Request {
-    let jsonHandler = new RequestJSONEventsHandler();
-    let decoder = new JSONDecoder<RequestJSONEventsHandler>(jsonHandler);
+    let json = new RequestJSONEventsHandler();
+    let decoder = new JSONDecoder<RequestJSONEventsHandler>(json);
 
     let bytes = string2Bytes(input);
 
     decoder.deserialize(bytes);
 
-    let action = jsonHandler.action;
+    let action = json.action;
 
     let request: Request;
 
     if (action == "Fetch") {
-        request = new FetchRequest(jsonHandler.filter_handle);
+        request = new FetchRequest(json.filter_handle, json.offset, json.count);
     } else if (action == "Post") {
-        request = new PostRequest(jsonHandler.message, jsonHandler.username)
+        request = new PostRequest(json.message, json.username)
     } else {
         request = new UnknownRequest()
     }
@@ -74,8 +78,12 @@ class RequestJSONEventsHandler extends JSONHandler {
     public message: string;
     public username: string;
     public filter_handle: string | null;
+    public offset: u32;
+    public count: u32;
 
     setString(name: string, value: string): void {
+        this.offset = 0;
+        this.count = 0;
 
         if (name == "action") {
             this.action = value;
@@ -84,6 +92,10 @@ class RequestJSONEventsHandler extends JSONHandler {
         } else if (name == "username") {
             this.username = value;
             this.filter_handle = value;
+        } else if (name == "offset") {
+            this.offset = U32.parseInt(value);
+        } else if (name == "count") {
+            this.count = U32.parseInt(value);
         }
         // json scheme is not strict, so we won't throw an error on excess fields
     }

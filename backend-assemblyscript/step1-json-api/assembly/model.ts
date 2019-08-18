@@ -6,7 +6,7 @@ export function createScheme(): void {
 export function addMessage(message: string, username: string): void {
     log("add message");
 }
-export function getMessages(username: string | null): string {
+export function getMessages(username: string | null, offset: u32, count: u32): string {
     log("get messages");
     return "[]";
 }
