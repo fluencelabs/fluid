@@ -10,7 +10,6 @@ use crate::errors::AppResult;
 pub mod api;
 pub mod database;
 pub mod errors;
-pub mod ffi;
 pub mod model;
 
 fn init() {
@@ -18,7 +17,7 @@ fn init() {
     model::create_scheme().unwrap();
 }
 
-#[invocation_handler(init_fn = init)]
+#[invocation_handler(init_fn = init, side_modules = sqlite)]
 fn run(arg: String) -> String {
     // Parse and username JSON request
     let result = api::parse(arg).and_then(|request| match request {
