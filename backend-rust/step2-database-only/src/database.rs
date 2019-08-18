@@ -1,8 +1,8 @@
 use crate::errors::{err_msg, AppResult};
 use crate::sqlite;
 
-pub fn sqlite_call(bytes: &str) -> AppResult<String> {
-    let response = sqlite::call(bytes.as_bytes());
+pub fn query(query: &str) -> AppResult<String> {
+    let response = sqlite::call(query.as_bytes());
 
     // Decode query result to a utf8 string
     let result_str = std::str::from_utf8(&response);
@@ -17,7 +17,7 @@ pub fn sqlite_call(bytes: &str) -> AppResult<String> {
         .map_err(|e| {
             err_msg(&format!(
                 "unable to decode result from bytes {:#x?}: {}",
-                bytes, e
+                query, e
             ))
         })
         .map(|s| s.to_string())

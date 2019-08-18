@@ -8,9 +8,9 @@ use crate::errors::err_msg;
 use crate::errors::AppResult;
 
 pub mod api;
+pub mod database;
 pub mod errors;
 pub mod model;
-pub mod utils;
 
 fn init() {
     logger::WasmLogger::init_with_level(log::Level::Info).unwrap();
