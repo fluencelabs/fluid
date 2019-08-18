@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {toggleConnection} from "../utils/api";
+import {toggleConnection} from "../fluence/api";
 
 class ConnectionToggle extends Component {
     constructor(props) {

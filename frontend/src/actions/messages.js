@@ -1,4 +1,4 @@
-import {getMessages, saveMessage} from "../utils/api";
+import {getMessages, saveMessage} from "../fluence/api";
 import { showLoading, hideLoading } from "react-redux-loading-bar";
 
 export const ADD_MESSAGE = "ADD_MESSAGE";
