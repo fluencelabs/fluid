@@ -12,7 +12,7 @@ if [ ! -f "wasm/$SQLITE" ]; then
 fi
 
 # Build fluid WASM module
-echo "Building..."
+echo "Building to WASM..."
 npm --silent install
 npm --quiet run flbuild
 cp build/fluid.wasm ./wasm/

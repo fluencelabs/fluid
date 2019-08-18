@@ -12,7 +12,7 @@ if [ ! -f "wasm/$SQLITE" ]; then
 fi
 
 # Build fluid WASM module
-echo "Building..."
+echo "Building to WASM..."
 cargo +nightly build --target wasm32-unknown-unknown --release >/dev/null
 cp target/wasm32-unknown-unknown/release/*.wasm ./wasm/
 echo
