@@ -30,7 +30,8 @@ JSON
 echo -e "Sending request... $JSON"
 
 # Send json as a request, and receive result
-RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$JSON" --compressed | jq -r .result.data | base64 -D)
+RESPONSE=$(curl -s 'http://localhost:30000/apps/0/tx' --data $'sessionId/0\n'"$JSON" --compressed)
+RESPONSE=$(echo "$RESPONSE" | jq -r .result.data | base64 --decode 2>/dev/null || echo "$RESPONSE")
 
 # Parse json or print response as is
 echo "$RESPONSE" | jq . 2>/dev/null || echo "$RESPONSE"

@@ -27,7 +27,8 @@ echo -e "Sending request: $REQUEST"
 echo "curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$REQUEST" --compressed"
 echo
 
-RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$REQUEST" --compressed | jq -r .result.data | base64 -D)
+RESPONSE=$(curl -s 'http://localhost:30000/apps/1/tx' --data $'sessionId/0\n'"$REQUEST" --compressed)
+RESPONSE=$(echo "$RESPONSE" | jq -r .result.data | base64 --decode 2>/dev/null || echo "$RESPONSE")
 
 echo -e "$RESPONSE\n"
 
