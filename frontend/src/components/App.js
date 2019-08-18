@@ -10,7 +10,8 @@ import ConnectionToggle from "./ConnectionToggle";
 class App extends Component {
 
     componentDidMount() {
-        console.log(`
+        setTimeout(() => {
+            console.log(`
 
 Hello, Fluencer!
 Thank you for trying Fluence out!
@@ -29,7 +30,8 @@ fluenceSession.request('{"action": "Fetch", "offset": 0, "limit": 1}').then((r) 
 
   
 `)
-    }
+        }, 3000);
+}
 
     render() {
         return (
