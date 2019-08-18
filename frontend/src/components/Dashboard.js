@@ -12,11 +12,11 @@ class Dashboard extends Component {
     }
 
     componentDidMount() {
+        this.props.dispatch(handleInitialData());
         this.pollingMessages = setInterval(
             () => this.getMessages(),
-            2000
+            1500
         );
-        this.props.dispatch(handleInitialData());
     }
 
     componentWillUnmount() {

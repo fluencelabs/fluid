@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import {connect} from "react-redux";
-import {toggleConnection} from "../fluence/api";
+import {toggleConnection} from "../actions/messages";
 
 class ConnectionToggle extends Component {
     constructor(props) {
@@ -20,7 +20,7 @@ class ConnectionToggle extends Component {
             toggleDisabled: true,
             devnetConnect: newConnect
         }));
-        toggleConnection(newConnect).finally(() => {
+        toggleConnection(newConnect).then(() => {
             this.setState(state => ({
                 toggleDisabled: false
             }));

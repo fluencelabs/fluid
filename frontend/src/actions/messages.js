@@ -1,4 +1,4 @@
-import {getMessages, saveMessage} from "../fluence/api";
+import {changeConnection, getMessages, saveMessage} from "../fluence/api";
 import { showLoading, hideLoading } from "react-redux-loading-bar";
 
 export const ADD_MESSAGE = "ADD_MESSAGE";
@@ -11,18 +11,15 @@ function addMessage(message) {
     };
 }
 
-export function fetchPosts(counter, withBar) {
+export async function toggleConnection(devnet, appId = 412) {
+    return changeConnection(devnet, appId)
+}
+
+export function fetchPosts(counter) {
     return dispatch => {
-        if (withBar) {
-            dispatch(showLoading());
-        }
         return getMessages().then((messages) => {
             dispatch(receiveMessages(messages, counter));
-        }).finally(() => {
-            if (withBar) {
-                dispatch(hideLoading());
-            }
-        });
+        })
     };
 }
 
