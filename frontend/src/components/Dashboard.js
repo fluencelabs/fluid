@@ -44,8 +44,6 @@ class Dashboard extends Component {
         }
         return (
             <div>
-                <b>Counter: {this.state.counter}</b>
-                <b>Last update: {this.state.lastUpdateCounter}</b>
                 <h3 className="center">Feed</h3>
                 <ul className="dashbord-list">
                     {updates.messages.map((m, i) => {
