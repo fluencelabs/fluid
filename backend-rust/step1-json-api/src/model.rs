@@ -10,12 +10,12 @@ pub fn add_post(message: String, username: String) -> AppResult<()> {
     Ok(log::info!("add post {} {}", message, username))
 }
 
-pub fn get_all_posts() -> AppResult<String> {
+pub fn get_all_posts(offset: u32, count: u32) -> AppResult<String> {
     log::info!("get all posts");
     Ok("[]".to_string())
 }
 
-pub fn get_posts_by_username(username: String) -> AppResult<String> {
+pub fn get_posts_by_username(username: String, offset: u32, count: u32) -> AppResult<String> {
     log::info!("get all posts by username {}", username);
     Ok("[]".to_string())
 }

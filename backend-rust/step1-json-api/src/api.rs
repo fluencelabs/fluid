@@ -5,8 +5,15 @@ use serde_json::value::RawValue;
 #[derive(Deserialize)]
 #[serde(tag = "action")]
 pub enum Request {
-    Post { message: String, username: String },
-    Fetch { username: Option<String> },
+    Post {
+        message: String,
+        username: String,
+    },
+    Fetch {
+        username: Option<String>,
+        offset: Option<u32>,
+        count: Option<u32>,
+    },
 }
 
 #[derive(Serialize, Debug)]

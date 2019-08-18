@@ -56,7 +56,7 @@ echo "$RESPONSE" | jq . 2>/dev/null || echo "$RESPONSE"
 
 # Assign json to a variable using heredoc technique
 JSON=$(cat <<JSON
-{"action":"Fetch", "handle": "random_joe"}
+{"action":"Fetch", "handle": "random_joe", "offset": 0, "count": 10}
 JSON
 )
 

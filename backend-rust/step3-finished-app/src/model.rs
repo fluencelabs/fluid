@@ -19,21 +19,29 @@ pub fn add_post(message: String, username: String) -> AppResult<()> {
     .map(drop)
 }
 
-pub fn get_all_posts() -> AppResult<String> {
-    database::query(
-        "SELECT json_group_array(
-            json_object('message', message, 'username', username)
-        ) AS json_result FROM (SELECT * FROM messages)",
-    )
-}
-
-pub fn get_posts_by_username(username: String) -> AppResult<String> {
+pub fn get_all_posts(offset: u32, count: u32) -> AppResult<String> {
     database::query(
         format!(
             "SELECT json_group_array(
             json_object('message', message, 'username', username)
-            ) AS json_result FROM (SELECT * FROM messages where username = '{}')",
-            username
+        ) AS json_result FROM (
+            SELECT * FROM messages LIMIT {} OFFSET {}
+        )",
+            count, offset,
+        )
+        .as_str(),
+    )
+}
+
+pub fn get_posts_by_username(username: String, offset: u32, count: u32) -> AppResult<String> {
+    database::query(
+        format!(
+            "SELECT json_group_array(
+            json_object('message', message, 'username', username)
+            ) AS json_result FROM (
+                SELECT * FROM messages where username = '{}' LIMIT {} OFFSET {}    
+            )",
+            username, count, offset
         )
         .as_str(),
     )

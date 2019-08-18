@@ -21,7 +21,11 @@ fn run(arg: String) -> String {
     // Parse and username JSON request
     let result = api::parse(arg).and_then(|request| match request {
         Request::Post { message, username } => add_post(message, username),
-        Request::Fetch { username } => fetch_posts(username),
+        Request::Fetch {
+            username,
+            offset,
+            count,
+        } => fetch_posts(username, offset, count),
     });
 
     let result = match result {
@@ -44,12 +48,18 @@ fn add_post(message: String, username: String) -> AppResult<Response> {
     Ok(Response::Post { count })
 }
 
-fn fetch_posts(username: Option<String>) -> AppResult<Response> {
+fn fetch_posts(
+    username: Option<String>,
+    offset: Option<u32>,
+    count: Option<u32>,
+) -> AppResult<Response> {
+    let count = count.unwrap_or(0);
+    let offset = offset.unwrap_or(0);
     let posts_str = match username {
         // Get all posts if no filter username was passed
-        None => model::get_all_posts()?,
+        None => model::get_all_posts(count, offset)?,
         // Or get only posts from specified author
-        Some(h) => model::get_posts_by_username(h)?,
+        Some(h) => model::get_posts_by_username(h, count, offset)?,
     };
 
     // Some Rust-specific detail to play nice with serialization, doesn't matter

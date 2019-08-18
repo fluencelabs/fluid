@@ -83,7 +83,7 @@ class RequestJSONEventsHandler extends JSONHandler {
 
     setString(name: string, value: string): void {
         this.offset = 0;
-        this.count = 0;
+        this.count = 100;
 
         if (name == "action") {
             this.action = value;
