@@ -63,7 +63,7 @@ class NewMessage extends Component {
                     {messageLeft <= 100 && <div className="message-length">{messageLeft}</div>}
 
                     {/* button is disabled if it's an empty string */}
-                    <button className="btn" type="submit" disabled={text === ""}>
+                    <button className="btn" type="submit" disabled={text === "" || name === ""}>
                         Submit
                     </button>
                 </form>
