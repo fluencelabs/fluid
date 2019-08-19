@@ -6,7 +6,7 @@ pub fn query(query: &str) -> AppResult<String> {
 
     // Add more details to error message
     String::from_utf8(response).map_err(|e| {
-        log::error!("unable to decode result from bytes: {:#x?}", bytes);
+        log::error!("unable to decode result from bytes: {:#x?}", response);
         err_msg(&format!(
             "unable to decode result from bytes {:#x?}: {}",
             query, e
