@@ -6,7 +6,7 @@ window.fluence = fluence;
 
 export async function changeConnection(devnet, appId) {
     if (devnet) {
-        fluence.connect("0xeFF91455de6D4CF57C141bD8bF819E5f873c1A01", appId).then((s) => {
+        fluence.connect("0xeFF91455de6D4CF57C141bD8bF819E5f873c1A01", appId, "http://geth.fluence.one:8545").then((s) => {
             session = s;
             window.fluenceSession = s;
             return s
