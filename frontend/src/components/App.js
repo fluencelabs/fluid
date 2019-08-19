@@ -16,19 +16,32 @@ class App extends Component {
 Hello, Fluencer!
 Thank you for trying Fluence out!
 You can find docs at https://fluence.dev
-Check out http://dash.fluence.network to deploy your own SQL DB instance
-Check out https://github.com/fluencelabs/tutorials for more Fluence examples
+Check out http://dash.fluence.network to deploy your own application
+
 If you have any questions, feel free to join our Discord https://fluence.chat :)
+
+Change 'appId' in 'toggleConnection' method in 'action/messages.js' if needed.
 
 You can send requests to Fluence network straight from console:
 
-// send the message and don't wait for a response
-fluenceSession.requestAsync('{"action": "Post", "message": "Hello, Fluence!", "username": "fluencer"}')
+// Create a session to interact with your app
+var session = fluence.directConnect("localhost", 30000);
 
-// get the last message, decode response as a string and print it in the console
-fluenceSession.request('{"action": "Fetch", "offset": 0, "limit": 1}').then((r) => r.asString()).then(console.log)                   
+// Or use current 'fluenceSession'
 
-  
+// Read data – similar to how you've done it in command line,
+// except sessionId and counter here are handled automatically
+(await fluenceSession.request(\`{"action": "Fetch"}\`)).asString()
+
+// Create new post, and wait for it to appear in UI
+await fluenceSession.requestAsync(
+  \`{"action": "Post", "message": "It's working!", "username": "console_joe"}\`
+);
+
+// Note different methods: request and requestAsync. And there's also a query.
+// request – does write-and-read
+// requestAsync – only write
+// query – retrieves result for requestAsync-created request                   
 `)
         }, 3000);
 }
