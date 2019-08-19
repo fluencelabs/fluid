@@ -3,14 +3,6 @@
 set -e
 set -o pipefail
 
-command -v jq >/dev/null 2>&1 || {
-    echo >&2 "jq is not installed, wouldn't parse responses"
-}
-
-command -v base64 >/dev/null 2>&1 || {
-    echo >&2 "base64 is not installed, wouldn't parse responses"
-}
-
 mkdir -p wasm
 
 # Download SQLite
@@ -22,9 +14,8 @@ fi
 
 # Build fluid WASM module
 echo "Building to WASM..."
-npm --silent install
-npm --quiet run flbuild
-cp build/fluid.wasm ./wasm/
+cargo +nightly build --target wasm32-unknown-unknown --release >/dev/null
+cp target/wasm32-unknown-unknown/release/*.wasm ./wasm/
 echo
 
 # Run it all on 30000 port with default Fluence API
