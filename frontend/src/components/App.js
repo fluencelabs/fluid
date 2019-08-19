@@ -13,35 +13,26 @@ class App extends Component {
         setTimeout(() => {
             console.log(`
 
-Hello, Fluencer!
-Thank you for trying Fluence out!
+Hello, fellow Fluencer! Thank you for trying Fluence out :)
+
 You can find docs at https://fluence.dev
-Check out http://dash.fluence.network to deploy your own application
+Also check out http://dash.fluence.network to deploy your own decentralized SQL/NoSQL databases
 
-If you have any questions, feel free to join our Discord https://fluence.chat :)
+If you have any questions, join our Discord https://fluence.chat or Telegram https://t.me/fluence_hack :)
 
-Change 'appId' in 'toggleConnection' method in 'action/messages.js' if needed.
+You can connect to Fluence and send some requests by copy-pasting this code:
 
-You can send requests to Fluence network straight from console:
-
-// Create a session to interact with your app
+// Connect to localy running fluence
 var session = fluence.directConnect("localhost", 30000);
+// To connect to remote app, use this:
+// var session = fluence.connect("0xeFF91455de6D4CF57C141bD8bF819E5f873c1A01", "413")
 
-// Or use current 'fluenceSession'
+// Send the message and don't wait for a response
+session.requestAsync('{"action": "Post", "message": "Hello, Fluence!", "username": "fluencer"}')
 
-// Read data – similar to how you've done it in command line,
-// except sessionId and counter here are handled automatically
-(await fluenceSession.request(\`{"action": "Fetch"}\`)).asString()
+// Get the last message, decode response as a string and print it in the console
+session.request('{"action": "Fetch", "offset": 0, "limit": 1}').then((r) => r.asString()).then(console.log)
 
-// Create new post, and wait for it to appear in UI
-await fluenceSession.requestAsync(
-  \`{"action": "Post", "message": "It's working!", "username": "console_joe"}\`
-);
-
-// Note different methods: request and requestAsync. And there's also a query.
-// request – does write-and-read
-// requestAsync – only write
-// query – retrieves result for requestAsync-created request                   
 `)
         }, 3000);
 }
