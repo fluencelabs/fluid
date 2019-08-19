@@ -1,9 +1,10 @@
-# Fluid – decentralized twitter-like feed built on Fluence with SQLite
+# Fluid
+
+Decentralized twitter-like feed built on Fluence.
+
+This project is an example of how to link and use **SQLite WASM** with modules written in **Rust** or **AssemblyScript**.
+
+For more info, please take a look at subprojects' READMEs.
 
 ## Workshop
-Workshop scenario could be found [here](https://fluence.dev/page/fluid)
-
-# SQLite + (Rust | AssemblyScript)
-This project is an example of how to link and use SQLite WASM with modules written in Rust or AssemblyScript.
-
-For more info, please take a look at subprojects' READMEs
+Workshop scenario could be found [here](https://fluence.dev/page/fluid).
