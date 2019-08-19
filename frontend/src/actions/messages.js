@@ -11,7 +11,7 @@ function addMessage(message) {
     };
 }
 
-export async function toggleConnection(devnet, appId = 412) {
+export async function toggleConnection(devnet, appId = 413) {
     return changeConnection(devnet, appId)
 }
 

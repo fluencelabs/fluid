@@ -3,7 +3,7 @@ import * as fluence from "fluence";
 let session = fluence.directConnect("localhost", 30000, 1);
 window.fluenceSession = session;
 
-export async function changeConnection(devnet, appId = 412) {
+export async function changeConnection(devnet, appId) {
     if (devnet) {
         fluence.connect("0xeFF91455de6D4CF57C141bD8bF819E5f873c1A01", appId).then((s) => {
             session = s;
