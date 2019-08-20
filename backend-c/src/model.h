@@ -3,7 +3,7 @@
 
 void create_scheme();
 
-char *add_post(const char *message, int message_length, const char *username, int username_length);
+char *add_post(const char *username, int username_length, const char *message, int message_length);
 
 char *get_all_posts(int offset, int count);
 

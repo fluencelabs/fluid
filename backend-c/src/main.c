@@ -35,8 +35,16 @@ char *prepare_response(const char *response, int response_length) {
 const char *add_post_request(const json_t *json);
 const char *fetch_posts_request(const json_t *json);
 
+bool isInited = 0;
+
 const char *invoke(char *str, int length) {
+    if(0 == isInited) {
+        create_scheme();
+        isInited = 1;
+    }
+
     wasm_log(str, length);
+    wasm_log("\n", 1);
 
     json_t pool[10];
     const unsigned int pool_size = sizeof pool / sizeof *pool;
@@ -75,8 +83,8 @@ const char *invoke(char *str, int length) {
 }
 
 const char *add_post_request(const json_t *json) {
-    const json_t *message_json = json_getProperty(json, "message");
     const json_t *username_json = json_getProperty(json, "username");
+    const json_t *message_json = json_getProperty(json, "message");
     if(0 == message_json || 0 == username_json) {
         const char error[] = "Given json doesn't contain message or username field";
         return prepare_response(error, sizeof error);
@@ -87,11 +95,11 @@ const char *add_post_request(const json_t *json) {
         return prepare_response(error, sizeof error);
     }
 
-    const char *message = json_getValue(message_json);
     const char *username = json_getValue(username_json);
+    const char *message = json_getValue(message_json);
 
-    const char *add_post_result = add_post(message, strlen(message),
-            username, strlen(username));
+    const char *add_post_result = add_post(username, strlen(username),
+            message, strlen(message));
     if(0 == add_post_result) {
         const char error[] = "add_post failed";
         return prepare_response(error, sizeof error);

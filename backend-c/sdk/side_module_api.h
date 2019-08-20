@@ -1,7 +1,8 @@
 #ifndef C_TEMPLATE_SIDE_MODULE_API_H
 #define C_TEMPLATE_SIDE_MODULE_API_H
 
-//#include <string.h>
+#include <string.h>
+#include <stdlib.h>
 
 /*
  * Concatenate preprocessor tokens A and B without expanding macro definitions
@@ -43,7 +44,7 @@ char * module_name ## _call(const char *ptr, int length) { \
     \
     unsigned int result_size = 0; \
     for (int i = 0; i < 4; ++i) { \
-        result_size = result_size | ((unsigned int)result[i] << 8*i); \
+        result_size = result_size | (module_name ## _load(result + i) << 8*i); \
     } \
     \
     char *result_out = malloc(result_size + 1); \
