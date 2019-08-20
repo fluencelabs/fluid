@@ -1,24 +1,11 @@
 #include "model.h"
-#include "../sdk/allocator.h"
+#include "utils.h"
 #include "../sdk/logger.h"
 #include "../sdk/syscalls_stubs.c"
 #include "../libs/tiny-json/tiny-json.h"
 
 #include <string.h>
 #include <stdlib.h>
-
-char *prepare_response(const char *response, int response_length) {
-    const int RESPONSE_SIZE_BYTES = 4;
-    char *result = (char *)allocate(response_length + RESPONSE_SIZE_BYTES);
-
-    for(int i = 0; i < RESPONSE_SIZE_BYTES; ++i) {
-        result[i] = (response_length >> 8*i) & 0xFF;
-    }
-
-    memcpy(result + RESPONSE_SIZE_BYTES, response, response_length);
-
-    return result;
-}
 
 const char *add_post_request(const json_t *json);
 const char *fetch_posts_request(const json_t *json);
