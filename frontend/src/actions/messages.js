@@ -15,10 +15,16 @@ export async function toggleConnection(devnet, appId = 413) {
     return changeConnection(devnet, appId)
 }
 
-export function fetchPosts(counter) {
+let lastResponseRequestTime = 0;
+
+export function fetchPosts() {
     return dispatch => {
+        const currentRequestTime = Date.now();
         return getMessages().then((messages) => {
-            dispatch(receiveMessages(messages, counter));
+            if (currentRequestTime > lastResponseRequestTime) {
+                lastResponseRequestTime = currentRequestTime;
+                dispatch(receiveMessages(messages));
+            }
         })
     };
 }
@@ -29,7 +35,7 @@ export function handleInitialData() {
         dispatch(showLoading());
 
         return getMessages().then((messages) => {
-            dispatch(receiveMessages(messages, 0));
+            dispatch(receiveMessages(messages));
 
             //after everything has loaded, hide loading bar
             dispatch(hideLoading());
@@ -50,10 +56,9 @@ export function handleAddMessage(text, name) {
 }
 
 //action creator
-export function receiveMessages(messages, counter) {
+export function receiveMessages(messages) {
     return {
         type: RECEIVE_MESSAGES,
-        counter,
         messages
     };
 }
