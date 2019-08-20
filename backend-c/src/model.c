@@ -1,9 +1,9 @@
 #include "../sdk/side_module_api.h"
-//#include <string.h>
-//#include <stdlib.h>
+
+#include <stdlib.h>
+#include <stdio.h>
 
 __MODULE_IMPORT(sqlite)
-int snprintf ( char * s, int n, const char * format, ... );
 
 // TODO: introduce error codes and security checks
 

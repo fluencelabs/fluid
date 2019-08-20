@@ -3,7 +3,21 @@
 #include "model.h"
 #include "../libs/tiny-json/tiny-json.h"
 
-//#include <string.h>
+#include <string.h>
+#include <stdlib.h>
+#include <stdio.h>
+
+size_t __stdio_write(FILE *f, const unsigned char *buf, size_t len) {
+    return 1;
+}
+
+int __stdio_close(FILE *f) {
+    return 1;
+}
+
+off_t __stdio_seek(FILE *_f, off_t _offset, int _value) {
+    return 0;
+}
 
 char *prepare_response(const char *response, int response_length) {
     const int RESPONSE_SIZE_BYTES = 4;
@@ -21,7 +35,7 @@ char *prepare_response(const char *response, int response_length) {
 const char *add_post_request(const json_t *json);
 const char *fetch_posts_request(const json_t *json);
 
-char *invoke(char *str, int length) {
+const char *invoke(char *str, int length) {
     wasm_log(str, length);
 
     json_t pool[10];
@@ -53,7 +67,7 @@ char *invoke(char *str, int length) {
         result = fetch_posts_request(json);
     } else {
         char *error = (char *)malloc(1024);
-        const int error_size = snprintf(error, 1024, "%s given as the action field, but only `Post` and `Fetch` are supported");
+        const int error_size = snprintf(error, 1024, "%s given as the action field, but only `Post` and `Fetch` are supported", action);
         result = prepare_response(error, error_size);
     }
 
