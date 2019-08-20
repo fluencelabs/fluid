@@ -18,7 +18,7 @@ char *add_post(const char *username, int username_length, const char *message, i
     const int request_size = username_length + message_length + 50;
     char *add_sql = (char *)malloc(request_size);
 
-    const int add_sql_length = snprintf(add_sql, request_size, "INSERT INTO messages VALUES(%s, %s)", message, username);
+    const int add_sql_length = snprintf(add_sql, request_size, "INSERT INTO messages VALUES(\"%s\", \"%s\")", message, username);
     if(add_sql_length < 0) {
         return 0;
     }

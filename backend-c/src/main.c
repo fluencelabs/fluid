@@ -1,23 +1,11 @@
+#include "model.h"
 #include "../sdk/allocator.h"
 #include "../sdk/logger.h"
-#include "model.h"
+#include "../sdk/syscalls_stubs.c"
 #include "../libs/tiny-json/tiny-json.h"
 
 #include <string.h>
 #include <stdlib.h>
-#include <stdio.h>
-
-size_t __stdio_write(FILE *f, const unsigned char *buf, size_t len) {
-    return 1;
-}
-
-int __stdio_close(FILE *f) {
-    return 1;
-}
-
-off_t __stdio_seek(FILE *_f, off_t _offset, int _value) {
-    return 0;
-}
 
 char *prepare_response(const char *response, int response_length) {
     const int RESPONSE_SIZE_BYTES = 4;
@@ -38,17 +26,16 @@ const char *fetch_posts_request(const json_t *json);
 bool isInited = 0;
 
 const char *invoke(char *str, int length) {
+    // initialize SQLite by creating schema
     if(0 == isInited) {
         create_scheme();
         isInited = 1;
     }
 
-    wasm_log(str, length);
-    wasm_log("\n", 1);
-
     json_t pool[10];
     const unsigned int pool_size = sizeof pool / sizeof *pool;
 
+    // try to parse json and extract action field
     const json_t *json = json_create(str, pool, pool_size);
     if(!json) {
         const char error[] = "Mailformed json given";
@@ -68,12 +55,14 @@ const char *invoke(char *str, int length) {
 
     const char *action = json_getValue(action_json);
 
+    // use action to determine the desired activity
     const char *result = "";
     if(0 == strcmp(action, "Post")) {
         result = add_post_request(json);
     } else if(0 == strcmp(action, "Fetch")) {
         result = fetch_posts_request(json);
     } else {
+        // no suitable action given
         char *error = (char *)malloc(1024);
         const int error_size = snprintf(error, 1024, "%s given as the action field, but only `Post` and `Fetch` are supported", action);
         result = prepare_response(error, error_size);
@@ -83,6 +72,7 @@ const char *invoke(char *str, int length) {
 }
 
 const char *add_post_request(const json_t *json) {
+    // try to extract username and message properties
     const json_t *username_json = json_getProperty(json, "username");
     const json_t *message_json = json_getProperty(json, "message");
     if(0 == message_json || 0 == username_json) {
@@ -105,6 +95,7 @@ const char *add_post_request(const json_t *json) {
         return prepare_response(error, sizeof error);
     }
 
+    // returns the updated post count to the client
     const char *count = get_posts_count();
     if(0 == count) {
         const char error[] = "get_posts_count failed";
@@ -118,6 +109,7 @@ const char *add_post_request(const json_t *json) {
 }
 
 const char *fetch_posts_request(const json_t *json) {
+    // try to extract username, offset and count fields
     const json_t *username_json = json_getProperty(json, "username");
     const json_t *offset_json = json_getProperty(json, "offset");
     const json_t *count_json = json_getProperty(json, "count");
@@ -142,6 +134,7 @@ const char *fetch_posts_request(const json_t *json) {
 
     char *result = "";
     if(0 == username_json) {
+        // if no username specified, jsut return all posts
         result = get_all_posts(offset, count);
         if(0 == result) {
             const char error[] = "get_all_posts failed";

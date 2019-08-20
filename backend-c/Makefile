@@ -1,4 +1,4 @@
-TARGET = hello_world
+TARGET = fluid
 CC = /opt/wasi-sdk/bin/clang
 SYSROOT = /opt/wasi-sdk/share/wasi-sysroot
 TARGET_TRIPLE = wasm32-unknown-wasi
