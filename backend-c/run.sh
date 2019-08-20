@@ -15,7 +15,7 @@ fi
 # Build fluid WASM module
 echo "Building to WASM..."
 docker-compose up --build
-cp fluid.wasm wasm/
+mv fluid.wasm wasm/
 echo
 
 # Run it all on 30000 port with default Fluence API

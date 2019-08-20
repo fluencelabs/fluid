@@ -53,6 +53,7 @@ const char *invoke(char *str, int length) {
         char *error = (char *)malloc(1024);
         const int error_size = snprintf(error, 1024, "%s given as the action field, but only `Post` and `Fetch` are supported", action);
         result = prepare_response(error, error_size);
+        free(error);
     }
 
     return result;
@@ -141,5 +142,8 @@ const char *fetch_posts_request(const json_t *json) {
 
     const int result_out_len = snprintf(result_out, result_len, "{ posts: \"%s\" }", result);
 
-    return prepare_response(result_out, result_out_len);
+    const char *prepared_response = prepare_response(result_out, result_out_len);
+    free(result_out);
+
+    return prepared_response;
 }
