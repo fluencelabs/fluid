@@ -12,7 +12,15 @@ const char *fetch_posts_request(const json_t *json);
 
 bool isInited = 0;
 
-const char *invoke(char *str, int length) {
+/**
+ * Executes given request and returns result in as a pointer to the following structure:
+ * | result size (4 bytes, le)| result (size bytes) |.
+ *
+ * @param request a pointer to the supplied request in JSON format
+ * @param request_size a size of the supplied sql request
+ * @return a pointer to the struct contains result_size and result
+ */
+ const char *invoke(char *request, int request_size) {
     // initialize SQLite by creating schema
     if(0 == isInited) {
         create_scheme();
@@ -23,7 +31,7 @@ const char *invoke(char *str, int length) {
     const unsigned int pool_size = sizeof pool / sizeof *pool;
 
     // try to parse json and extract action field
-    const json_t *json = json_create(str, pool, pool_size);
+    const json_t *json = json_create(request, pool, pool_size);
     if(!json) {
         const char error[] = "Mailformed json given";
         return prepare_response(error, sizeof error);
@@ -49,8 +57,11 @@ const char *invoke(char *str, int length) {
     } else if(0 == strcmp(action, "Fetch")) {
         result = fetch_posts_request(json);
     } else {
-        // no suitable action given
-        char *error = (char *)malloc(1024);
+        // no suitable action is given
+        char *error = malloc(1024);
+        if(0 == error) {
+            return 0;
+        }
         const int error_size = snprintf(error, 1024, "%s given as the action field, but only `Post` and `Fetch` are supported", action);
         result = prepare_response(error, error_size);
         free(error);
@@ -139,6 +150,9 @@ const char *fetch_posts_request(const json_t *json) {
 
     const int result_len = strlen(result) + 100;
     char *result_out = malloc(result_len);
+    if(0 == result_out) {
+        return 0;
+    }
 
     const int result_out_len = snprintf(result_out, result_len, "{ posts: \"%s\" }", result);
 

@@ -17,6 +17,9 @@ char *add_post(const char *username, int username_length, const char *message, i
     // at now wasm-ld has 1024 bytes for stack permission by default - that why dynamic allocation here
     const int request_size = username_length + message_length + 50;
     char *add_sql = (char *)malloc(request_size);
+    if(0 == add_sql) {
+        return 0;
+    }
 
     const int add_sql_length = snprintf(add_sql, request_size, "INSERT INTO messages VALUES(\"%s\", \"%s\")", message, username);
     if(add_sql_length < 0) {
@@ -29,6 +32,9 @@ char *add_post(const char *username, int username_length, const char *message, i
 char *get_all_posts(int offset, int count) {
     // at now wasm-ld has 1024 bytes for stack permission by default - that why dynamic allocation here
     char *get_sql = (char *)malloc(256);
+    if(0 == get_sql) {
+        return 0;
+    }
 
     const int get_sql_length = snprintf(get_sql, 256,
             "SELECT json_group_array("
@@ -47,6 +53,9 @@ char *get_posts_by_username(const char *username, int username_length, int offse
     // at now wasm-ld has 1024 bytes for stack permission by default - that why dynamic allocation here
     const int request_size = username_length + 300;
     char *get_sql = (char *)malloc(request_size);
+    if(0 == get_sql) {
+        return 0;
+    }
 
     const int add_sql_length = snprintf(get_sql, request_size,
             "SELECT json_group_array("
